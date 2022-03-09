@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_menu"
+        android:text = "Scene"
+        android:title = "@string/scene_name">
+    <item
+            android:id="@+id/action_add_scene"
+            android:icon="@android:drawable/ic_menu_add"
+            android:orderInCategory="100"
+            android:title="@string/action_settings"
+            app:showAsAction="always" />
+
+</menu>
