@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
@@ -21,8 +21,8 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
     //Объекты находящиеся в scene_rv.xml
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tv_sceneName)
-        val numOfLamps: TextView = itemView.findViewById(R.id.tv_numOfLampsNum)
-        val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_control)
+        val numOfLamps: TextView = itemView.findViewById(R.id.tv_num_of_lamps)
+        val btSettings: ImageButton = itemView.findViewById(R.id.bt_control)
         val switchKey: Switch = itemView.findViewById(R.id.s_turnScene)
     }
 

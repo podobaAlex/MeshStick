@@ -6,7 +6,8 @@
         android:layout_height="60dp"
         android:layout_margin="5dp"
         android:id="@+id/lamp_object"
-        android:paddingLeft="10dp" android:paddingRight="10dp">
+        android:paddingLeft="10dp" android:paddingRight="10dp"
+>
 
     <androidx.cardview.widget.CardView
             android:background="@color/mainBlue"
@@ -23,21 +24,12 @@
                     android:id="@+id/tv_lampName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/current_color"
-                    app:layout_constraintVertical_bias="0.526" android:textColor="@color/mainWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/bt_settings"/>
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="40dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/current_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
-                    app:layout_constraintVertical_bias="0.0">
-            </LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/mainWhite"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_settings"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="25dp"/>
             <ImageButton
                     android:layout_width="200dp"
                     android:layout_height="0dp"
@@ -48,6 +40,16 @@
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
                     tools:ignore="TouchTargetSizeCheck"
                     app:layout_constraintVertical_bias="0.0"/>
+            <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switchOnOff"
+                    android:trackTint="@drawable/switch_track"
+                    android:thumbTint="@drawable/switch_thumb"
+                    app:layout_constraintEnd_toEndOf="@+id/bt_settings" android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    android:switchMinWidth="48dp" android:height="48dp"
+                    android:elevation="30dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
