@@ -19,13 +19,16 @@ class ScenesActivity : AppCompatActivity() {
 
     private lateinit var adaptor: RVSceneAdaptor
 
+    //Обработка результатов других activity
     val sceneLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         run {
             when (result.resultCode) {
+                //Обновляем данные изменённые в LampsActivity
                 1 -> {
                     val pos = result.data!!.getIntExtra("pos", 0)
                     adaptor.notifyItemChanged(pos)
                 }
+                //добавляем выбранные сцены из SavedSceneActivity
                 2 -> {
                     scenes.add(Scene(result.data!!.getStringExtra("scene_name") ?: "null"))
 
@@ -59,17 +62,21 @@ class ScenesActivity : AppCompatActivity() {
 
     }
 
+    //Хот-бар
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_scene, menu)
         return true
     }
 
+    //Обработка кнопок хот-бара
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            //Добавить сцену
             R.id.action_add_scene -> {
                 addScene()
                 return true
             }
+            //Перейти в SavedScenesActivity
             R.id.action_savedScenes -> {
                 sceneLauncher.launch(Intent(this, SavedScenesActivity::class.java))
             }
@@ -77,6 +84,7 @@ class ScenesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    //Добавление сцены
     private fun addScene() {
         adaptor.add(Scene())
     }

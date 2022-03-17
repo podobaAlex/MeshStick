@@ -16,6 +16,7 @@ class LampSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lamp_settings)
 
+        //Передача начальных значений объектам LampSettingsActivity
         val lampName: EditText = findViewById(R.id.et_lampName)
         val sbRed: SeekBar = findViewById(R.id.sb_red)
         val sbGreen: SeekBar = findViewById(R.id.sb_green)
@@ -33,6 +34,7 @@ class LampSettingsActivity : AppCompatActivity() {
 
         color.setBackgroundColor(Color.rgb(red, green, blue))
 
+        //Обработка взаимодействия с seekBar Red
         sbRed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 red = sbRed.progress
@@ -47,6 +49,7 @@ class LampSettingsActivity : AppCompatActivity() {
 
         })
 
+        //Обработка взаимодействия с seekBar Green
         sbGreen.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 green = sbGreen.progress
@@ -61,6 +64,7 @@ class LampSettingsActivity : AppCompatActivity() {
 
         })
 
+        //Обработка взаимодействия с seekBar Blue
         sbBlue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 blue = sbBlue.progress
@@ -75,6 +79,7 @@ class LampSettingsActivity : AppCompatActivity() {
 
         })
 
+        //Сохранение изменений
         findViewById<Button>(R.id.bt_save).setOnClickListener {
             val intent = Intent()
 

@@ -19,9 +19,11 @@ class LampsActivity : AppCompatActivity() {
     private lateinit var adaptor: RVLampAdaptor
     private var num: Int = 0
 
+    //Обработка результатов с других activity
     val lampsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         run {
             when (result.resultCode) {
+                //Результат из LampSettingsActivity
                 1 -> {
                     adaptor.changeData(
                         result.data!!.getStringExtra("name") ?: "null",
@@ -52,6 +54,7 @@ class LampsActivity : AppCompatActivity() {
 
     }
 
+    //Сохранение изменений при возвращении в ScenesActivity
     override fun onBackPressed() {
         intent = Intent(this, ScenesActivity::class.java)
         intent.putExtra("pos", num)
@@ -59,14 +62,17 @@ class LampsActivity : AppCompatActivity() {
         finish()
     }
 
+    //Верхний хот-бар
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         supportActionBar?.title = scenes[num].getName()
         menuInflater.inflate(R.menu.menu_lamps, menu)
         return true
     }
 
+    //Обработка объектов хот-бара
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            //Добавление лампы
             R.id.action_add -> {
                 adaptor.addLamp(Lamp("lamp"))
                 return true
@@ -75,6 +81,7 @@ class LampsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    //Перемещение объектов recyclerview
     private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN
                 or ItemTouchHelper.END or ItemTouchHelper.START, 0
