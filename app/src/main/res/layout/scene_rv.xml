@@ -1,45 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:background="#F3C0C0"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#abcdef"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     <TextView
-            android:text="TextView"
-            android:layout_width="219dp"
-            android:layout_height="89dp"
+            android:text="@string/text_for_text_view"
+            android:layout_width="198dp"
+            android:layout_height="85dp"
             android:id="@+id/tv_sceneName"
             android:textSize="30sp"
             android:textColor="#000000"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="4dp" android:layout_marginStart="4dp"
             app:layout_constraintVertical_bias="0.0"/>
     <TextView
-            android:text="Lamps: "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/tv_numOfLamps"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/lamps"
+
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:id="@+id/tv_numOfLamps"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="15sp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.84"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.662"/>
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.892"
+            app:layout_constraintStart_toEndOf="@+id/tv_sceneName" android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"/>
     <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/tv_numOfLampsNum"
+            android:text="@string/num"
+            android:layout_width="40dp"
+            android:layout_height="20dp" android:id="@+id/tv_numOfLampsNum"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="60dp"
-            android:layout_marginRight="60dp" app:layout_constraintVertical_bias="0.84"
-            app:layout_constraintStart_toEndOf="@+id/tv_numOfLamps" app:layout_constraintHorizontal_bias="1.0"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp" app:layout_constraintVertical_bias="0.892"
+            app:layout_constraintStart_toEndOf="@+id/tv_numOfLamps" app:layout_constraintHorizontal_bias="0.2"/>
+    <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@null"
             android:clickable="true" app:srcCompat="@drawable/control_panel" android:id="@+id/bt_control"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp" app:layout_constraintVertical_bias="0.06"
-            app:layout_constraintStart_toEndOf="@+id/tv_sceneName" app:layout_constraintHorizontal_bias="1.0"/>
+            android:layout_marginRight="4dp" app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/settings" android:focusable="true"/>
+    <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@null"
+            android:clickable="true" app:srcCompat="@android:drawable/ic_menu_save"
+            android:id="@+id/bt_saveScene"
+            app:layout_constraintStart_toEndOf="@+id/tv_sceneName"
+            app:layout_constraintEnd_toStartOf="@+id/bt_control"
+            app:layout_constraintBottom_toTopOf="@+id/tv_numOfLampsNum" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.895" app:layout_constraintVertical_bias="0.0"
+            android:focusable="true" android:contentDescription="@string/save"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_menu">
-    <item
-            android:id="@+id/action_back"
-            android:title="@string/action_settings"
-            tools:icon="@android:drawable/ic_media_rew"
-            android:orderInCategory="100"
-            app:showAsAction="always"/>
+
     <item
             android:id="@+id/action_add"
             android:icon="@android:drawable/ic_menu_add"
             android:orderInCategory="101"
             android:title="@string/action_settings"
-            app:showAsAction="always" />
+            app:showAsAction="always"/>
 
 </menu>

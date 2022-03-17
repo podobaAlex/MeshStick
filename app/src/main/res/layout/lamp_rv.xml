@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="18dp"
+        android:layout_margin="5dp"
         android:background="#abcdef">
 
     <TextView
@@ -16,15 +16,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="10dp" app:layout_constraintHorizontal_bias="0.265"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="41dp"
-            android:layout_height="44dp"
-            android:clickable="true"
-            app:srcCompat="@android:drawable/ic_menu_manage"
-            android:id="@+id/bt_settings"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/text"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="43dp"
@@ -33,5 +24,14 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/current_color">
     </LinearLayout>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ABCDEF"
+            app:srcCompat="@drawable/control_panel" android:id="@+id/bt_settings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text" app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintVertical_bias="0.444" android:contentDescription="@string/settings"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
