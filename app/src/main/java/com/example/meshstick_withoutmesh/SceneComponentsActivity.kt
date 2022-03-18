@@ -9,14 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.meshstick_withoutmesh.adaptors.RVLampAdaptor
+import com.example.meshstick_withoutmesh.adaptors.RVSceneComponentsAdaptor
+import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 
-class LampsActivity : AppCompatActivity() {
+class SceneComponentsActivity : AppCompatActivity() {
 
-    private lateinit var adaptor: RVLampAdaptor
+    private lateinit var adaptor: RVSceneComponentsAdaptor
     private var num: Int = 0
 
     //Обработка результатов с других activity
@@ -46,7 +47,7 @@ class LampsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         num = this.intent.getIntExtra("num", 0)
 
-        adaptor = RVLampAdaptor(scenes[num].lamps, this)
+        adaptor = RVSceneComponentsAdaptor(scenes[num].sceneComponents, this)
         recyclerView.adapter = adaptor
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -65,7 +66,7 @@ class LampsActivity : AppCompatActivity() {
     //Верхний хот-бар
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         supportActionBar?.title = scenes[num].getName()
-        menuInflater.inflate(R.menu.menu_lamps, menu)
+        menuInflater.inflate(R.menu.menu_scene_components, menu)
         return true
     }
 
@@ -73,8 +74,13 @@ class LampsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //Добавление лампы
-            R.id.action_add -> {
+            R.id.action_add_lamp -> {
                 adaptor.addLamp(Lamp("lamp"))
+                return true
+            }
+            //Добавление группы
+            R.id.action_add_group -> {
+                adaptor.addGroup(Group("Group"))
                 return true
             }
         }

@@ -1,7 +1,7 @@
 package com.example.meshstick_withoutmesh.types
 
 class Scene(private var name: String) {
-    var lamps = mutableListOf<Lamp>()
+    var sceneComponents = mutableListOf<SceneComponents>()
 
     constructor() : this("Scene")
 

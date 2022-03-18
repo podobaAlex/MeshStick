@@ -35,14 +35,17 @@ class ScenesActivity : AppCompatActivity() {
                     val size: Int = result.data!!.getIntExtra("lamps_count", 0)
                     for (i in 0 until size) {
 
-                        scenes[scenes.size - 1].lamps.add(
+                        scenes[scenes.size - 1].sceneComponents.add(
                             Lamp(
                                 result!!.data!!.getStringExtra("lamp${i}_name") ?: "null",
-                                result.data!!.getIntExtra("lamp${i}_red", 0),
-                                result.data!!.getIntExtra("lamp${i}_green", 0),
-                                result.data!!.getIntExtra("lamp${i}_blue", 0)
                             )
                         )
+
+                        scenes[scenes.size - 1].sceneComponents[i].red = result.data!!.getIntExtra("lamp${i}_red", 0)
+                        scenes[scenes.size - 1].sceneComponents[i].green =
+                            result.data!!.getIntExtra("lamp${i}_green", 0)
+                        scenes[scenes.size - 1].sceneComponents[i].blue = result.data!!.getIntExtra("lamp${i}_blue", 0)
+
                     }
                     adaptor.notifyItemInserted(scenes.size - 1)
                 }

@@ -12,7 +12,7 @@
             android:theme="@style/Theme.MyApplication">
         <activity android:name="com.example.meshstick_withoutmesh.SavedScenesActivity">
         </activity>
-        <activity android:name="com.example.meshstick_withoutmesh.LampsActivity">
+        <activity android:name="com.example.meshstick_withoutmesh.SceneComponentsActivity">
         </activity>
         <activity android:name="com.example.meshstick_withoutmesh.ScenesActivity">
         </activity>

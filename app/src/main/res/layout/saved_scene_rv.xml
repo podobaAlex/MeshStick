@@ -44,7 +44,7 @@
             android:id="@+id/bt_load"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp" app:layout_constraintVertical_bias="0.06"
-            app:layout_constraintStart_toEndOf="@+id/tv_savedSceneName" app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginRight="4dp" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tv_savedSceneName" app:layout_constraintHorizontal_bias="0.992"
             android:focusable="true" android:contentDescription="@string/load"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

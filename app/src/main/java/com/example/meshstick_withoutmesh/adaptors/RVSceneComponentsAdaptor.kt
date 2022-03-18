@@ -2,6 +2,7 @@ package com.example.meshstick_withoutmesh.adaptors
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +11,22 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.LampSettingsActivity
-import com.example.meshstick_withoutmesh.LampsActivity
+import com.example.meshstick_withoutmesh.SceneComponentsActivity
+import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.SceneComponents
 import com.example.myapplication.R
 import java.util.*
 
-class RVLampAdaptor(private var items: MutableList<Lamp>, private val activity: LampsActivity) :
-    RecyclerView.Adapter<RVLampAdaptor.ViewHolder>() {
+class RVSceneComponentsAdaptor(
+    private var items: MutableList<SceneComponents>,
+    private val activity: SceneComponentsActivity
+) :
+    RecyclerView.Adapter<RVSceneComponentsAdaptor.ViewHolder>() {
 
     //Меняем лампы местами
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        if (fromPosition < toPosition) for (i in fromPosition until toPosition) Collections.swap(items, i, i + 1)
-        else for (i in fromPosition downTo toPosition + 1) Collections.swap(items, i, i - 1)
+        Collections.swap(items, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
         return true
     }
@@ -33,16 +38,23 @@ class RVLampAdaptor(private var items: MutableList<Lamp>, private val activity: 
         red: Int, green: Int, blue: Int
     ) {
 
-        items[position].setName(name)
+        items[position].name = name
         items[position].red = red
         items[position].green = green
         items[position].blue = blue
+
         notifyDataSetChanged()
     }
 
     //Добавление новой лампы
     fun addLamp(lamp: Lamp) {
         items.add(lamp)
+        notifyDataSetChanged()
+    }
+
+    //Добавление новой группы
+    fun addGroup(group: Group) {
+        items.add(group)
         notifyDataSetChanged()
     }
 
@@ -62,16 +74,20 @@ class RVLampAdaptor(private var items: MutableList<Lamp>, private val activity: 
     //Обработка объектов
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Установка имени лампы
-        holder.textView.text = items[position].getName()
+        holder.textView.text = items[position].name
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, LampSettingsActivity::class.java)
 
-            intent.putExtra("name", items[position].getName())
+            intent.putExtra("name", items[position].name)
             intent.putExtra("red", items[position].red.toString())
             intent.putExtra("green", items[position].green.toString())
             intent.putExtra("blue", items[position].blue.toString())
             intent.putExtra("position_settings", position)
+
+            if (items[position] is Group) {
+                Log.d("GROUP", "THIS IS ${items[position].name}")
+            }
 
             activity.lampsLauncher.launch(intent)
         }

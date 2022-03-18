@@ -1,6 +1,8 @@
 package com.example.meshstick_withoutmesh.types
 
-class Lamp() : SceneComponents() {
+class Group() : SceneComponents() {
+
+    var lamps = mutableListOf<Lamp>()
 
     constructor(name: String) : this() {
         this.name = name

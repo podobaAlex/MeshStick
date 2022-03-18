@@ -10,8 +10,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.meshstick_withoutmesh.LampsActivity
+import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
+import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.Scene
 import com.example.myapplication.R
 
@@ -49,11 +51,13 @@ class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activit
         //Установка имени сцены
         holder.textView.text = scenes[position].getName()
         //Установка кол-ва ламп
-        holder.numOfLamps.text = scenes[position].lamps.size.toString()
+        holder.numOfLamps.text = scenes[position].sceneComponents.size.toString()
 
         //Переход в LampsScene
         holder.btSettings.setOnClickListener {
-            activity.sceneLauncher.launch(Intent(activity, LampsActivity::class.java).putExtra("num", position))
+            activity.sceneLauncher.launch(
+                Intent(activity, SceneComponentsActivity::class.java).putExtra("num", position)
+            )
         }
 
         //Сохранение сцены
@@ -68,12 +72,23 @@ class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activit
         saveCounter = pref.getInt("save_count", 0)
         Log.d("SAVE", "$saveCounter")
         editor.putString("scene$saveCounter", scenes[position].getName())
-        editor.putInt("scene${saveCounter}_size", scenes[position].lamps.size)
-        for (i in 0 until scenes[position].lamps.size) {
-            editor.putString("scene${saveCounter}_lamp$i", scenes[position].lamps[i].getName())
-            editor.putInt("scene${saveCounter}_lamp${i}_red", scenes[position].lamps[i].red)
-            editor.putInt("scene${saveCounter}_lamp${i}_green", scenes[position].lamps[i].green)
-            editor.putInt("scene${saveCounter}_lamp${i}_blue", scenes[position].lamps[i].blue)
+        editor.putInt("scene${saveCounter}_size", scenes[position].sceneComponents.size)
+        for (i in 0 until scenes[position].sceneComponents.size) {
+            if (scenes[position].sceneComponents[i] is Lamp) {
+                editor.putString("scene${saveCounter}_lamp${i}", scenes[position].sceneComponents[i].name)
+                editor.putInt("scene${saveCounter}_lamp${i}_red", scenes[position].sceneComponents[i].red)
+                editor.putInt("scene${saveCounter}_lamp${i}_green", scenes[position].sceneComponents[i].green)
+                editor.putInt("scene${saveCounter}_lamp${i}_blue", scenes[position].sceneComponents[i].blue)
+            } else {
+                editor.putString("scene${saveCounter}_group${i}", scenes[position].sceneComponents[i].name)
+                editor.putInt("scene${saveCounter}_group${i}_red", scenes[position].sceneComponents[i].red)
+                editor.putInt("scene${saveCounter}_group${i}_green", scenes[position].sceneComponents[i].green)
+                editor.putInt("scene${saveCounter}_group${i}_blue", scenes[position].sceneComponents[i].blue)
+                val group: Group = scenes[position].sceneComponents[i] as Group
+                for (j in 0 until group.lamps.size) {
+                    editor.putString("scene${saveCounter}_group${i}_lamp${j}", group.name)
+                }
+            }
         }
         editor.putInt("save_count", ++saveCounter)
         editor.apply()
