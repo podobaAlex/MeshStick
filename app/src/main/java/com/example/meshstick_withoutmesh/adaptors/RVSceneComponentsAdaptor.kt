@@ -28,6 +28,7 @@ class RVSceneComponentsAdaptor(
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
         Collections.swap(items, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
+        notifyItemRangeChanged(fromPosition, kotlin.math.abs(toPosition - fromPosition))
         return true
     }
 
