@@ -37,16 +37,7 @@ class RVSavedSceneAdaptor(
         //Загрузить сохранённую сцену
         holder.btLoad.setOnClickListener {
             val intent = Intent()
-
-            intent.putExtra("scene_name", scenes[position].getName())
-            intent.putExtra("lamps_count", scenes[position].sceneComponents.size)
-            for (i in 0 until scenes[position].sceneComponents.size) {
-                intent.putExtra("lamp${i}_name", scenes[position].sceneComponents[i].name)
-                intent.putExtra("lamp${i}_red", scenes[position].sceneComponents[i].red)
-                intent.putExtra("lamp${i}_green", scenes[position].sceneComponents[i].green)
-                intent.putExtra("lamp${i}_blue", scenes[position].sceneComponents[i].blue)
-            }
-
+            intent.putExtra("scene", scenes[position])
             savedScenesActivity.setResult(2, intent)
         }
     }

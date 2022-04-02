@@ -27,11 +27,8 @@ class SceneComponentsActivity : AppCompatActivity() {
                 //Результат из LampSettingsActivity
                 1 -> {
                     adaptor.changeData(
-                        result.data!!.getStringExtra("name") ?: "null",
-                        result.data!!.getIntExtra("position_comeback", 1),
-                        result.data!!.getStringExtra("red")!!.toInt(),
-                        result.data!!.getStringExtra("green")!!.toInt(),
-                        result.data!!.getStringExtra("blue")!!.toInt()
+                        result.data!!.getParcelableExtra<Lamp>("lamp")!!,
+                        result.data!!.getIntExtra("position_comeback", 0)
                     )
                 }
             }

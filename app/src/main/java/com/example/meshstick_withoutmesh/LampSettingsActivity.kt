@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.myapplication.R
 
 class LampSettingsActivity : AppCompatActivity() {
@@ -23,10 +24,11 @@ class LampSettingsActivity : AppCompatActivity() {
         val sbBlue: SeekBar = findViewById(R.id.sb_blue)
         val color: LinearLayout = findViewById(R.id.ll_showColor)
 
-        lampName.setText(this.intent.getStringExtra("name"))
-        sbRed.progress = this.intent.getStringExtra("red")!!.toInt()
-        sbGreen.progress = this.intent.getStringExtra("green")!!.toInt()
-        sbBlue.progress = this.intent.getStringExtra("blue")!!.toInt()
+        val lamp: Lamp = this.intent.getParcelableExtra<Lamp>("lamp")!!
+        lampName.setText(lamp.name)
+        sbRed.progress = lamp.red
+        sbGreen.progress = lamp.green
+        sbBlue.progress = lamp.blue
 
         var red = sbRed.progress
         var green = sbGreen.progress
@@ -83,10 +85,14 @@ class LampSettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.bt_save).setOnClickListener {
             val intent = Intent()
 
-            intent.putExtra("name", lampName.text.toString())
-            intent.putExtra("red", red.toString())
-            intent.putExtra("green", green.toString())
-            intent.putExtra("blue", blue.toString())
+            intent.putExtra(
+                "lamp", Lamp(
+                    lampName.text.toString(),
+                    red,
+                    green,
+                    blue
+                )
+            )
             intent.putExtra("position_comeback", this.intent.getIntExtra("position_settings", 1))
 
             setResult(1, intent)

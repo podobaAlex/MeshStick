@@ -33,17 +33,8 @@ class RVSceneComponentsAdaptor(
     }
 
     //Изменяем данные лампы
-    fun changeData(
-        name: String,
-        position: Int,
-        red: Int, green: Int, blue: Int
-    ) {
-
-        items[position].name = name
-        items[position].red = red
-        items[position].green = green
-        items[position].blue = blue
-
+    fun changeData(lamp: Lamp, position: Int) {
+        items[position] = lamp
         notifyDataSetChanged()
     }
 
@@ -80,10 +71,7 @@ class RVSceneComponentsAdaptor(
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, LampSettingsActivity::class.java)
 
-            intent.putExtra("name", items[position].name)
-            intent.putExtra("red", items[position].red.toString())
-            intent.putExtra("green", items[position].green.toString())
-            intent.putExtra("blue", items[position].blue.toString())
+            intent.putExtra("lamp", items[position] as Lamp)
             intent.putExtra("position_settings", position)
 
             if (items[position] is Group) {

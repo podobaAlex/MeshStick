@@ -1,10 +1,12 @@
 package com.example.meshstick_withoutmesh.types
 
-open class SceneComponents {
+import android.os.Parcelable
 
-    var name: String = "name"
-    var red: Int = 0
-    var green: Int = 0
-    var blue: Int = 0
+interface SceneComponents : Parcelable {
+
+    var name: String
+    var red: Int
+    var green: Int
+    var blue: Int
 
 }

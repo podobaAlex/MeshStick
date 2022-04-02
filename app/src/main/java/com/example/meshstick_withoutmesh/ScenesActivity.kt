@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adaptors.RVSceneAdaptor
-import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.Scene
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
@@ -30,23 +29,8 @@ class ScenesActivity : AppCompatActivity() {
                 }
                 //добавляем выбранные сцены из SavedSceneActivity
                 2 -> {
-                    scenes.add(Scene(result.data!!.getStringExtra("scene_name") ?: "null"))
+                    scenes.add(result.data!!.getParcelableExtra<Scene>("scene")!!)
 
-                    val size: Int = result.data!!.getIntExtra("lamps_count", 0)
-                    for (i in 0 until size) {
-
-                        scenes[scenes.size - 1].sceneComponents.add(
-                            Lamp(
-                                result!!.data!!.getStringExtra("lamp${i}_name") ?: "null",
-                            )
-                        )
-
-                        scenes[scenes.size - 1].sceneComponents[i].red = result.data!!.getIntExtra("lamp${i}_red", 0)
-                        scenes[scenes.size - 1].sceneComponents[i].green =
-                            result.data!!.getIntExtra("lamp${i}_green", 0)
-                        scenes[scenes.size - 1].sceneComponents[i].blue = result.data!!.getIntExtra("lamp${i}_blue", 0)
-
-                    }
                     adaptor.notifyItemInserted(scenes.size - 1)
                 }
                 else -> Log.d("RES_CODE", "${result.resultCode}")
