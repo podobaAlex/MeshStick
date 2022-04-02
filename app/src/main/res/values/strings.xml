@@ -16,4 +16,6 @@
     <string name="lamps">Lamps:</string>
     <string name="saved_scene">SavedScene</string>
     <string name="load">load</string>
+    <string name="add_group">Add Group</string>
+    <string name="add_lamp">Add Lamp</string>
 </resources>

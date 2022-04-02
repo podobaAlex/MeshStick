@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -37,15 +38,20 @@ class SceneComponentsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lamps)
+        setContentView(R.layout.activity_components)
 
-        val recyclerView: RecyclerView = findViewById(R.id.rl_lamps)
+        val btAddLamp: Button = findViewById(R.id.bt_addLamp)
+        val btAddGroup: Button = findViewById(R.id.bt_addGroup)
+        val recyclerView: RecyclerView = findViewById(R.id.rl_components)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         num = this.intent.getIntExtra("num", 0)
 
         adaptor = RVSceneComponentsAdaptor(scenes[num].sceneComponents, this)
         recyclerView.adapter = adaptor
+
+        btAddLamp.setOnClickListener { adaptor.addLamp(Lamp("lamp")) }
+        btAddGroup.setOnClickListener { adaptor.addGroup(Group("group")) }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
