@@ -8,14 +8,14 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.SceneComponents
 import com.example.myapplication.R
 
-class LampSettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     //private var pref: SharedPreferences = getSharedPreferences("Test", MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lamp_settings)
+        setContentView(R.layout.activity_settings)
 
         //Передача начальных значений объектам LampSettingsActivity
         val lampName: EditText = findViewById(R.id.et_lampName)
@@ -24,11 +24,11 @@ class LampSettingsActivity : AppCompatActivity() {
         val sbBlue: SeekBar = findViewById(R.id.sb_blue)
         val color: LinearLayout = findViewById(R.id.ll_showColor)
 
-        val lamp: Lamp = this.intent.getParcelableExtra<Lamp>("lamp")!!
-        lampName.setText(lamp.name)
-        sbRed.progress = lamp.red
-        sbGreen.progress = lamp.green
-        sbBlue.progress = lamp.blue
+        val sceneComponent = this.intent.getParcelableExtra<SceneComponents>("component")!!
+        lampName.setText(sceneComponent.name)
+        sbRed.progress = sceneComponent.red
+        sbGreen.progress = sceneComponent.green
+        sbBlue.progress = sceneComponent.blue
 
         var red = sbRed.progress
         var green = sbGreen.progress
@@ -85,14 +85,12 @@ class LampSettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.bt_save).setOnClickListener {
             val intent = Intent()
 
-            intent.putExtra(
-                "lamp", Lamp(
-                    lampName.text.toString(),
-                    red,
-                    green,
-                    blue
-                )
-            )
+            sceneComponent.name = lampName.text.toString()
+            sceneComponent.red = red
+            sceneComponent.green = green
+            sceneComponent.blue = blue
+
+            intent.putExtra("component", sceneComponent)
             intent.putExtra("position_comeback", this.intent.getIntExtra("position_settings", 1))
 
             setResult(1, intent)

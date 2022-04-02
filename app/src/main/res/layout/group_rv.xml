@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:background="#abcdef">
+
+    <TextView
+            android:id="@+id/text"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            app:layout_constraintStart_toEndOf="@+id/current_color" android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp" app:layout_constraintEnd_toStartOf="@+id/bt_settings"
+    />
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="43dp"
+            android:layout_height="37dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/current_color"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+    >
+    </LinearLayout>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ABCDEF"
+            app:srcCompat="@drawable/control_panel" android:id="@+id/bt_settings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.0" android:contentDescription="@string/settings"
+            android:layout_marginEnd="4dp" android:layout_marginRight="4dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

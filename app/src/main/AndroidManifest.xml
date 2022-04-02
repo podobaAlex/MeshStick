@@ -16,7 +16,7 @@
         </activity>
         <activity android:name="com.example.meshstick_withoutmesh.ScenesActivity">
         </activity>
-        <activity android:name="com.example.meshstick_withoutmesh.LampSettingsActivity">
+        <activity android:name="com.example.meshstick_withoutmesh.SettingsActivity">
         </activity>
         <activity
                 android:name="com.example.meshstick_withoutmesh.MainActivity"

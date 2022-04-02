@@ -27,7 +27,7 @@ class SceneComponentsActivity : AppCompatActivity() {
                 //Результат из LampSettingsActivity
                 1 -> {
                     adaptor.changeData(
-                        result.data!!.getParcelableExtra<Lamp>("lamp")!!,
+                        result.data!!.getParcelableExtra("component")!!,
                         result.data!!.getIntExtra("position_comeback", 0)
                     )
                 }
