@@ -25,9 +25,12 @@ class RVSceneComponentsAdaptor(
 
     //Меняем лампы местами
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-        notifyItemRangeChanged(fromPosition, kotlin.math.abs(toPosition - fromPosition))
+        var start = fromPosition
+        var end = toPosition
+        Collections.swap(items, start, end)
+        notifyItemMoved(start, end)
+        if (toPosition < fromPosition) start = toPosition.also { end = fromPosition }
+        notifyItemRangeChanged(start, kotlin.math.abs(start - end) + 1)
         return true
     }
 
