@@ -18,4 +18,5 @@
     <string name="load">load</string>
     <string name="add_group">Add Group</string>
     <string name="add_lamp">Add Lamp</string>
+    <string name="groupname">groupName</string>
 </resources>

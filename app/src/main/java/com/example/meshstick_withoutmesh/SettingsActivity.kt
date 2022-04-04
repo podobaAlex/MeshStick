@@ -3,10 +3,8 @@ package com.example.meshstick_withoutmesh
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.SeekBar
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.meshstick_withoutmesh.types.SceneComponents
 import com.example.myapplication.R
@@ -23,6 +21,18 @@ class SettingsActivity : AppCompatActivity() {
         val sbGreen: SeekBar = findViewById(R.id.sb_green)
         val sbBlue: SeekBar = findViewById(R.id.sb_blue)
         val color: LinearLayout = findViewById(R.id.ll_showColor)
+
+        val group = this.intent.getIntExtra("group", 0)
+        val groupPosition = this.intent.getIntExtra("group_position", -1)
+
+        if (group == 1) {
+            sbRed.visibility = View.GONE
+            sbGreen.visibility = View.GONE
+            sbBlue.visibility = View.GONE
+            findViewById<TextView>(R.id.tv_red).visibility = View.GONE
+            findViewById<TextView>(R.id.tv_green).visibility = View.GONE
+            findViewById<TextView>(R.id.tv_blue).visibility = View.GONE
+        }
 
         val sceneComponent = this.intent.getParcelableExtra<SceneComponents>("component")!!
         lampName.setText(sceneComponent.name)
@@ -92,6 +102,10 @@ class SettingsActivity : AppCompatActivity() {
 
             intent.putExtra("component", sceneComponent)
             intent.putExtra("position_comeback", this.intent.getIntExtra("position_settings", 1))
+
+            if (group == 1) {
+                intent.putExtra("group_position", groupPosition)
+            }
 
             setResult(1, intent)
             finish()

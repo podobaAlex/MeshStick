@@ -2,12 +2,14 @@ package com.example.meshstick_withoutmesh.adaptors
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
@@ -20,23 +22,38 @@ import java.util.*
 class RVSceneComponentsAdaptor(
     private var items: MutableList<SceneComponents>,
     private val activity: SceneComponentsActivity
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //Меняем лампы местами
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+    fun onItemMove(fromPosition: Int, toPosition: Int) {
         var start = fromPosition
         var end = toPosition
         Collections.swap(items, start, end)
         notifyItemMoved(start, end)
         if (toPosition < fromPosition) start = toPosition.also { end = fromPosition }
         notifyItemRangeChanged(start, kotlin.math.abs(start - end) + 1)
-        return true
     }
 
     //Изменяем данные лампы
     fun changeData(sceneComponent: SceneComponents, position: Int) {
         items[position] = sceneComponent
+        if (items[position] is Group) {
+            (items[position] as Group).lamps.forEach {
+                it.red = sceneComponent.red
+                it.green = sceneComponent.green
+                it.blue = sceneComponent.blue
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun addLampInGroup(lampPosition: Int, groupPosition: Int) {
+        if (!(items[groupPosition] is Group && items[lampPosition] is Lamp)) return
+        items[lampPosition].red = items[groupPosition].red
+        items[lampPosition].green = items[groupPosition].green
+        items[lampPosition].blue = items[groupPosition].blue
+        (items[groupPosition] as Group).lamps.add(items[lampPosition] as Lamp)
+        items.removeAt(lampPosition)
         notifyDataSetChanged()
     }
 
@@ -52,6 +69,11 @@ class RVSceneComponentsAdaptor(
         notifyDataSetChanged()
     }
 
+    fun updateLampInGroup(lamp: Lamp, groupPosition: Int, lampPosition: Int) {
+        (items[groupPosition] as Group).lamps[lampPosition] = lamp
+        notifyItemChanged(groupPosition)
+    }
+
     //Объекты lamp_rv.xml
     class ViewHolderLamp(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.text)
@@ -59,10 +81,13 @@ class RVSceneComponentsAdaptor(
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
     }
 
+    //Объекты group_rv.xml
     class ViewHolderGroup(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.text)
+        val textView: TextView = itemView.findViewById(R.id.tv_groupName)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
-        val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
+        val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
+        val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
+        lateinit var adaptor: RVLampsOfGroup
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -121,6 +146,20 @@ class RVSceneComponentsAdaptor(
     private fun onBindViewHolderGroup(holder: ViewHolderGroup, position: Int) {
         //Установка имени лампы
         holder.textView.text = items[position].name
+
+        holder.rvLamps.layoutManager = LinearLayoutManager(activity)
+        holder.adaptor = RVLampsOfGroup((items[position] as Group).lamps, activity, position)
+        holder.rvLamps.adapter = holder.adaptor
+
+        holder.currentColor.setOnClickListener {
+            (items[position] as Group).expanded = !(items[position] as Group).expanded
+            notifyItemChanged(position)
+            Log.d("GROUP", "EXPANDED-${(items[position] as Group).expanded}")
+        }
+
+        val isExpandable = (items[position] as Group).expanded
+        holder.rvLamps.visibility = if (isExpandable) View.VISIBLE else View.GONE
+
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)

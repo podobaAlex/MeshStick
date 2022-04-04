@@ -1,9 +1,10 @@
 package com.example.meshstick_withoutmesh
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,10 +28,19 @@ class SceneComponentsActivity : AppCompatActivity() {
             when (result.resultCode) {
                 //Результат из LampSettingsActivity
                 1 -> {
-                    adaptor.changeData(
-                        result.data!!.getParcelableExtra("component")!!,
-                        result.data!!.getIntExtra("position_comeback", 0)
-                    )
+                    val position: Int = result.data!!.getIntExtra("group_position", -1)
+                    if (position == -1) {
+                        adaptor.changeData(
+                            result.data!!.getParcelableExtra("component")!!,
+                            result.data!!.getIntExtra("position_comeback", 0)
+                        )
+                    } else {
+                        adaptor.updateLampInGroup(
+                            result.data!!.getParcelableExtra("component")!!,
+                            position,
+                            result.data!!.getIntExtra("position_comeback", 0)
+                        )
+                    }
                 }
             }
         }
@@ -69,25 +79,7 @@ class SceneComponentsActivity : AppCompatActivity() {
     //Верхний хот-бар
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         supportActionBar?.title = scenes[num].getName()
-        menuInflater.inflate(R.menu.menu_scene_components, menu)
         return true
-    }
-
-    //Обработка объектов хот-бара
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            //Добавление лампы
-            R.id.action_add_lamp -> {
-                adaptor.addLamp(Lamp("lamp"))
-                return true
-            }
-            //Добавление группы
-            R.id.action_add_group -> {
-                adaptor.addGroup(Group("Group"))
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     //Перемещение объектов recyclerview
@@ -96,6 +88,9 @@ class SceneComponentsActivity : AppCompatActivity() {
                 or ItemTouchHelper.END or ItemTouchHelper.START, 0
     ) {
 
+        var dropPosition: Int = -1
+        var dy = 0f
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -103,6 +98,42 @@ class SceneComponentsActivity : AppCompatActivity() {
         ): Boolean {
             adaptor.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
             return true
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            dy = dY
+            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                when {
+                    dY > 0.8f -> {
+                        dropPosition = viewHolder.adapterPosition + 1
+                    }
+                    dY < -0.8f -> {
+                        dropPosition = viewHolder.adapterPosition - 1
+                    }
+                    else -> {
+                        dropPosition = viewHolder.adapterPosition
+                    }
+                }
+            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
+            Log.d("DROP", "ViewHolder drop position - $dropPosition")
+            Log.d("DROP", "dY - $dy")
+            if (dropPosition >= 0 && dropPosition < adaptor.itemCount) {
+                adaptor.addLampInGroup(viewHolder.adapterPosition, dropPosition)
+            }
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
