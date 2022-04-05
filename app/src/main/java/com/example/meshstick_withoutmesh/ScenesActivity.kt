@@ -1,6 +1,5 @@
 package com.example.meshstick_withoutmesh
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -62,10 +61,6 @@ class ScenesActivity : AppCompatActivity() {
             R.id.action_add_scene -> {
                 addScene()
                 return true
-            }
-            //Перейти в SavedScenesActivity
-            R.id.action_savedScenes -> {
-                sceneLauncher.launch(Intent(this, SavedScenesActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

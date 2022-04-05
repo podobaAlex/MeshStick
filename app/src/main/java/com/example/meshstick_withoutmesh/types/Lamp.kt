@@ -3,8 +3,12 @@ package com.example.meshstick_withoutmesh.types
 import android.os.Parcel
 import android.os.Parcelable
 
-class Lamp(override var name: String, override var red: Int, override var green: Int, override var blue: Int) :
-    SceneComponents {
+class Lamp(
+    override var name: String,
+    override var red: Int,
+    override var green: Int,
+    override var blue: Int
+) : SceneComponents, Colored {
 
     constructor(name: String) : this(name, 0, 0, 0)
 

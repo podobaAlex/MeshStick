@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SceneComponents
 import com.example.myapplication.R
 
@@ -22,10 +24,10 @@ class SettingsActivity : AppCompatActivity() {
         val sbBlue: SeekBar = findViewById(R.id.sb_blue)
         val color: LinearLayout = findViewById(R.id.ll_showColor)
 
-        val group = this.intent.getIntExtra("group", 0)
+        val groupedLamp = this.intent.getIntExtra("group", 0)
         val groupPosition = this.intent.getIntExtra("group_position", -1)
 
-        if (group == 1) {
+        if (groupedLamp == 1) {
             sbRed.visibility = View.GONE
             sbGreen.visibility = View.GONE
             sbBlue.visibility = View.GONE
@@ -36,9 +38,17 @@ class SettingsActivity : AppCompatActivity() {
 
         val sceneComponent = this.intent.getParcelableExtra<SceneComponents>("component")!!
         lampName.setText(sceneComponent.name)
-        sbRed.progress = sceneComponent.red
-        sbGreen.progress = sceneComponent.green
-        sbBlue.progress = sceneComponent.blue
+        if (sceneComponent is Lamp) {
+            sbRed.progress = sceneComponent.red
+            sbGreen.progress = sceneComponent.green
+            sbBlue.progress = sceneComponent.blue
+        }
+
+        if (sceneComponent is Group) {
+            sbRed.progress = sceneComponent.red
+            sbGreen.progress = sceneComponent.green
+            sbBlue.progress = sceneComponent.blue
+        }
 
         var red = sbRed.progress
         var green = sbGreen.progress
@@ -96,14 +106,22 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent()
 
             sceneComponent.name = lampName.text.toString()
-            sceneComponent.red = red
-            sceneComponent.green = green
-            sceneComponent.blue = blue
+            if (sceneComponent is Lamp) {
+                sceneComponent.red = red
+                sceneComponent.green = green
+                sceneComponent.blue = blue
+            }
+
+            if (sceneComponent is Group) {
+                sceneComponent.red = red
+                sceneComponent.green = green
+                sceneComponent.blue = blue
+            }
 
             intent.putExtra("component", sceneComponent)
             intent.putExtra("position_comeback", this.intent.getIntExtra("position_settings", 1))
 
-            if (group == 1) {
+            if (groupedLamp == 1) {
                 intent.putExtra("group_position", groupPosition)
             }
 

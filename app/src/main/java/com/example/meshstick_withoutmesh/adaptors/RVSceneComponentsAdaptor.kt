@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
 import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.GroupedLamp
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SceneComponents
 import com.example.myapplication.R
@@ -37,22 +38,13 @@ class RVSceneComponentsAdaptor(
     //Изменяем данные лампы
     fun changeData(sceneComponent: SceneComponents, position: Int) {
         items[position] = sceneComponent
-        if (items[position] is Group) {
-            (items[position] as Group).lamps.forEach {
-                it.red = sceneComponent.red
-                it.green = sceneComponent.green
-                it.blue = sceneComponent.blue
-            }
-        }
         notifyDataSetChanged()
     }
 
     fun addLampInGroup(lampPosition: Int, groupPosition: Int) {
         if (!(items[groupPosition] is Group && items[lampPosition] is Lamp)) return
-        items[lampPosition].red = items[groupPosition].red
-        items[lampPosition].green = items[groupPosition].green
-        items[lampPosition].blue = items[groupPosition].blue
-        (items[groupPosition] as Group).lamps.add(items[lampPosition] as Lamp)
+        val lamp = items[lampPosition] as Lamp
+        (items[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
         items.removeAt(lampPosition)
         notifyDataSetChanged()
     }
@@ -69,7 +61,7 @@ class RVSceneComponentsAdaptor(
         notifyDataSetChanged()
     }
 
-    fun updateLampInGroup(lamp: Lamp, groupPosition: Int, lampPosition: Int) {
+    fun updateLampInGroup(lamp: GroupedLamp, groupPosition: Int, lampPosition: Int) {
         (items[groupPosition] as Group).lamps[lampPosition] = lamp
         notifyItemChanged(groupPosition)
     }
@@ -123,7 +115,8 @@ class RVSceneComponentsAdaptor(
 
     private fun onBindViewHolderLamp(holder: ViewHolderLamp, position: Int) {
         //Установка имени лампы
-        holder.textView.text = items[position].name
+        val lamp = items[position] as Lamp
+        holder.textView.text = lamp.name
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
@@ -136,28 +129,29 @@ class RVSceneComponentsAdaptor(
         //Обновление цвета
         holder.currentColor.setBackgroundColor(
             Color.rgb(
-                items[position].red,
-                items[position].green,
-                items[position].blue
+                lamp.red,
+                lamp.green,
+                lamp.blue
             )
         )
     }
 
     private fun onBindViewHolderGroup(holder: ViewHolderGroup, position: Int) {
         //Установка имени лампы
-        holder.textView.text = items[position].name
+        val group = items[position] as Group
+        holder.textView.text = group.name
 
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
-        holder.adaptor = RVLampsOfGroup((items[position] as Group).lamps, activity, position)
+        holder.adaptor = RVLampsOfGroup(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
         holder.rvLamps.adapter = holder.adaptor
 
         holder.currentColor.setOnClickListener {
-            (items[position] as Group).expanded = !(items[position] as Group).expanded
+            group.expanded = !group.expanded
             notifyItemChanged(position)
-            Log.d("GROUP", "EXPANDED-${(items[position] as Group).expanded}")
+            Log.d("GROUP", "EXPANDED-${group.expanded}")
         }
 
-        val isExpandable = (items[position] as Group).expanded
+        val isExpandable = group.expanded
         holder.rvLamps.visibility = if (isExpandable) View.VISIBLE else View.GONE
 
         //Переход в LampSettingsActivity
@@ -172,9 +166,9 @@ class RVSceneComponentsAdaptor(
         //Обновление цвета
         holder.currentColor.setBackgroundColor(
             Color.rgb(
-                items[position].red,
-                items[position].green,
-                items[position].blue
+                group.red,
+                group.green,
+                group.blue
             )
         )
     }

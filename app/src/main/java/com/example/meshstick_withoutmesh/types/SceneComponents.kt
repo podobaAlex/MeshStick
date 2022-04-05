@@ -5,8 +5,8 @@ import android.os.Parcelable
 interface SceneComponents : Parcelable {
 
     var name: String
-    var red: Int
-    var green: Int
-    var blue: Int
+//    var red: Int
+//    var green: Int
+//    var blue: Int
 
 }

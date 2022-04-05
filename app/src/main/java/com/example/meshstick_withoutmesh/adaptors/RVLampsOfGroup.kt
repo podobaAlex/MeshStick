@@ -1,7 +1,6 @@
 package com.example.meshstick_withoutmesh.adaptors
 
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,15 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
+import com.example.meshstick_withoutmesh.types.GroupedLamp
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.myapplication.R
 
 class RVLampsOfGroup(
-    private val lamps: MutableList<Lamp>,
+    private val lamps: MutableList<GroupedLamp>,
     private val activity: SceneComponentsActivity,
-    private val groupPosition: Int
+    private val groupPosition: Int,
+    private val color: Int
 ) : RecyclerView.Adapter<RVLampsOfGroup.LampHolder>() {
 
     class LampHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,7 +29,7 @@ class RVLampsOfGroup(
     }
 
     fun addLamp(lamp: Lamp) {
-        lamps.add(lamp)
+        lamps.add(GroupedLamp(lamp))
         notifyItemInserted(lamps.size - 1)
     }
 
@@ -53,13 +54,7 @@ class RVLampsOfGroup(
             activity.lampsLauncher.launch(intent)
         }
         //Обновление цвета
-        holder.currentColor.setBackgroundColor(
-            Color.rgb(
-                lamps[position].red,
-                lamps[position].green,
-                lamps[position].blue
-            )
-        )
+        holder.currentColor.setBackgroundColor(color)
     }
 
     override fun getItemCount(): Int {
