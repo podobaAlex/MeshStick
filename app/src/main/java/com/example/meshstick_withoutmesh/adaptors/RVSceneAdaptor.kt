@@ -1,12 +1,10 @@
 package com.example.meshstick_withoutmesh.adaptors
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
@@ -16,12 +14,6 @@ import com.example.myapplication.R
 
 class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activity: ScenesActivity) :
     RecyclerView.Adapter<RVSceneAdaptor.ViewHolder>() {
-
-    //Количество сохранённых сцен
-    private var saveCounter: Int = 0
-
-    //БД с сохранёнными сценами
-    private var pref: SharedPreferences = activity.getSharedPreferences("Scenes", AppCompatActivity.MODE_PRIVATE)
 
     //Объекты находящиеся в scene_rv.xml
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

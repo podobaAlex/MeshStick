@@ -28,7 +28,7 @@ class ScenesActivity : AppCompatActivity() {
                 }
                 //добавляем выбранные сцены из SavedSceneActivity
                 2 -> {
-                    scenes.add(result.data!!.getParcelableExtra<Scene>("scene")!!)
+                    scenes.add(result.data!!.getParcelableExtra("scene")!!)
 
                     adaptor.notifyItemInserted(scenes.size - 1)
                 }

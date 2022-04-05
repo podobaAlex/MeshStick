@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
 import com.example.meshstick_withoutmesh.types.GroupedLamp
-import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.myapplication.R
 
 class RVLampsOfGroup(
@@ -26,11 +25,6 @@ class RVLampsOfGroup(
         val textView: TextView = itemView.findViewById(R.id.text)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
-    }
-
-    fun addLamp(lamp: Lamp) {
-        lamps.add(GroupedLamp(lamp))
-        notifyItemInserted(lamps.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LampHolder {

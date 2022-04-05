@@ -111,16 +111,10 @@ class SceneComponentsActivity : AppCompatActivity() {
         ) {
             dy = dY
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                when {
-                    dY > 0.8f -> {
-                        dropPosition = viewHolder.adapterPosition + 1
-                    }
-                    dY < -0.8f -> {
-                        dropPosition = viewHolder.adapterPosition - 1
-                    }
-                    else -> {
-                        dropPosition = viewHolder.adapterPosition
-                    }
+                dropPosition = when {
+                    dY > 0.8f -> viewHolder.adapterPosition + 1
+                    dY < -0.8f -> viewHolder.adapterPosition - 1
+                    else -> viewHolder.adapterPosition
                 }
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
