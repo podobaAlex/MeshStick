@@ -1,5 +1,6 @@
 package com.example.meshstick_withoutmesh
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
@@ -19,7 +20,7 @@ import com.example.myapplication.R
 
 class SceneComponentsActivity : AppCompatActivity() {
 
-    private lateinit var adaptor: RVSceneComponentsAdaptor
+    lateinit var adaptor: RVSceneComponentsAdaptor
     private var num: Int = 0
 
     //Обработка результатов с других activity
@@ -65,7 +66,6 @@ class SceneComponentsActivity : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
     }
 
     //Сохранение изменений при возвращении в ScenesActivity
@@ -90,6 +90,14 @@ class SceneComponentsActivity : AppCompatActivity() {
 
         var dropPosition: Int = -1
         var dy = 0f
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun getDragDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            val selectedPosition = viewHolder.adapterPosition
+            val isActive: Boolean =
+                adaptor.isExpanded(selectedPosition) // retrieve your model from list and check its active state
+            return if (!isActive) super.getDragDirs(recyclerView, viewHolder) else 0
+        }
 
         override fun onMove(
             recyclerView: RecyclerView,

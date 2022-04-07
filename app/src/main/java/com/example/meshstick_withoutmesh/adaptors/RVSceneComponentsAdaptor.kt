@@ -1,6 +1,7 @@
 package com.example.meshstick_withoutmesh.adaptors
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
@@ -21,7 +23,7 @@ import com.example.myapplication.R
 import java.util.*
 
 class RVSceneComponentsAdaptor(
-    private var items: MutableList<SceneComponents>,
+    var items: MutableList<SceneComponents>,
     private val activity: SceneComponentsActivity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -55,6 +57,11 @@ class RVSceneComponentsAdaptor(
         notifyDataSetChanged()
     }
 
+    fun addLamp(index: Int, lamp: Lamp) {
+        items.add(index, lamp)
+        notifyDataSetChanged()
+    }
+
     //Добавление новой группы
     fun addGroup(group: Group) {
         items.add(group)
@@ -80,6 +87,70 @@ class RVSceneComponentsAdaptor(
         val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
         lateinit var adaptor: RVLampsOfGroup
+        private var pos = this.adapterPosition
+
+        private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                    or ItemTouchHelper.END or ItemTouchHelper.START, 0
+        ) {
+            var dropPosition: Int = -1
+            var dy = 0f
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                adaptor.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                dy = dY
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    dropPosition = when {
+                        dY > 0.8f -> pos
+                        dY < -0.8f -> pos - 1
+                        else -> viewHolder.adapterPosition
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
+                Log.d("DROP", "ViewHolder drop position - $dropPosition")
+                Log.d("DROP", "dY - $dy")
+                if (viewHolder.adapterPosition == 0 || viewHolder.adapterPosition == adaptor.itemCount - 1) {
+                    if (dy > 0.8f) {
+                        adaptor.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
+                    }
+                    if (dy < -0.8f) {
+                        adaptor.outOfGroup(adapterPosition, viewHolder.adapterPosition)
+                    }
+                }
+            }
+
+        }
+
+        private val itemTouchHelper = ItemTouchHelper(simpleCallback)
+
+        init {
+            itemTouchHelper.attachToRecyclerView(rvLamps)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -177,5 +248,10 @@ class RVSceneComponentsAdaptor(
         return items.size
     }
 
+    fun isExpanded(position: Int): Boolean {
+        val item = items[position]
+        if (item is Group) return item.expanded
+        return false
+    }
 
 }
