@@ -26,12 +26,6 @@ class ScenesActivity : AppCompatActivity() {
                     val pos = result.data!!.getIntExtra("pos", 0)
                     adaptor.notifyItemChanged(pos)
                 }
-                //добавляем выбранные сцены из SavedSceneActivity
-                2 -> {
-                    scenes.add(result.data!!.getParcelableExtra("scene")!!)
-
-                    adaptor.notifyItemInserted(scenes.size - 1)
-                }
                 else -> Log.d("RES_CODE", "${result.resultCode}")
             }
         }
