@@ -118,6 +118,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             isCurrentlyActive: Boolean
         ) {
             dy = dY
+            Log.d("DROP", "dY - $dy")
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 dropPosition = when {
                     dY > 0.8f -> viewHolder.adapterPosition + 1
@@ -132,7 +133,6 @@ class SceneComponentsActivity : AppCompatActivity() {
             super.clearView(recyclerView, viewHolder)
             Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
             Log.d("DROP", "ViewHolder drop position - $dropPosition")
-            Log.d("DROP", "dY - $dy")
             if (dropPosition >= 0 && dropPosition < adaptor.itemCount) {
                 adaptor.addLampInGroup(viewHolder.adapterPosition, dropPosition)
             }

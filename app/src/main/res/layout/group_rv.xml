@@ -40,7 +40,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ll_color"
                         app:layout_constraintEnd_toStartOf="@+id/bt_settings"
-                        app:layout_constraintHorizontal_bias="0.117"/>
+                        app:layout_constraintHorizontal_bias="0.058" app:layout_constraintVertical_bias="0.6"/>
                 <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

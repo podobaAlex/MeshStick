@@ -87,15 +87,11 @@ class RVSceneComponentsAdaptor(
         val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
         lateinit var adaptor: RVLampsOfGroup
-        private var pos = this.adapterPosition
 
         private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN
                     or ItemTouchHelper.END or ItemTouchHelper.START, 0
         ) {
-            var dropPosition: Int = -1
-            var dy = 0f
-
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -118,32 +114,15 @@ class RVSceneComponentsAdaptor(
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                dy = dY
-                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                    dropPosition = when {
-                        dY > 0.8f -> pos
-                        dY < -0.8f -> pos - 1
-                        else -> viewHolder.adapterPosition
-                    }
-                }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            }
-
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-                super.clearView(recyclerView, viewHolder)
-                Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
-                Log.d("DROP", "ViewHolder drop position - $dropPosition")
-                Log.d("DROP", "dY - $dy")
-                if (viewHolder.adapterPosition == 0 || viewHolder.adapterPosition == adaptor.itemCount - 1) {
-                    if (dy > 0.8f) {
-                        adaptor.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
-                    }
-                    if (dy < -0.8f) {
-                        adaptor.outOfGroup(adapterPosition, viewHolder.adapterPosition)
-                    }
+                Log.d("dY_LAMP_IN_GROUP", "$dY")
+                if (viewHolder.adapterPosition == 0 && dY < -140f) {
+                    adaptor.outOfGroup(adapterPosition, viewHolder.adapterPosition)
+                }
+                if (viewHolder.adapterPosition == adaptor.itemCount - 1 && dY > 140f) {
+                    adaptor.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
                 }
             }
-
         }
 
         private val itemTouchHelper = ItemTouchHelper(simpleCallback)

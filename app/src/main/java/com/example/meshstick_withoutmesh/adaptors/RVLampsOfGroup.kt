@@ -65,7 +65,6 @@ class RVLampsOfGroup(
     fun outOfGroup(groupPosition: Int, lampPosition: Int) {
         activity.adaptor.addLamp(groupPosition, Lamp(lamps[lampPosition].name))
         lamps.removeAt(lampPosition)
-        notifyItemRemoved(lampPosition)
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int) {
