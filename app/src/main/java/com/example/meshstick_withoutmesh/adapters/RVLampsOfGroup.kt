@@ -1,4 +1,4 @@
-package com.example.meshstick_withoutmesh.adaptors
+package com.example.meshstick_withoutmesh.adapters
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -63,7 +63,7 @@ class RVLampsOfGroup(
     }
 
     fun outOfGroup(groupPosition: Int, lampPosition: Int) {
-        activity.adaptor.addLamp(groupPosition, Lamp(lamps[lampPosition].name))
+        activity.adapter.addLamp(groupPosition, Lamp(lamps[lampPosition].name))
         lamps.removeAt(lampPosition)
         notifyItemRemoved(lampPosition)
     }

@@ -12,16 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.meshstick_withoutmesh.adaptors.RVSceneComponentsAdaptor
-import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.scenes
+import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 
 class SceneComponentsActivity : AppCompatActivity() {
 
-    lateinit var adaptor: RVSceneComponentsAdaptor
+    lateinit var adapter: RVSceneComponentsAdapter
     private var num: Int = 0
+    //private var  sceneComponents: MutableList<SceneComponents>? = null
 
     //Обработка результатов с других activity
     val lampsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -31,12 +30,12 @@ class SceneComponentsActivity : AppCompatActivity() {
                 1 -> {
                     val position: Int = result.data!!.getIntExtra("group_position", -1)
                     if (position == -1) {
-                        adaptor.changeData(
+                        adapter.changeData(
                             result.data!!.getParcelableExtra("component")!!,
                             result.data!!.getIntExtra("position_comeback", 0)
                         )
                     } else {
-                        adaptor.updateLampInGroup(
+                        adapter.updateLampInGroup(
                             result.data!!.getParcelableExtra("component")!!,
                             position,
                             result.data!!.getIntExtra("position_comeback", 0)
@@ -58,14 +57,30 @@ class SceneComponentsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         num = this.intent.getIntExtra("num", 0)
 
-        adaptor = RVSceneComponentsAdaptor(scenes[num].sceneComponents, this)
-        recyclerView.adapter = adaptor
+        adapter = RVSceneComponentsAdapter(num, this)
+        recyclerView.adapter = adapter
 
-        btAddLamp.setOnClickListener { adaptor.addLamp(Lamp("lamp")) }
-        btAddGroup.setOnClickListener { adaptor.addGroup(Group("group")) }
+        //восстанавливаем информацию из хранилища
+        fetchSceneComponents()
+
+        btAddLamp.setOnClickListener { adapter.addLamp(Lamp("lamp")) }
+        btAddGroup.setOnClickListener { adapter.addGroup(Group("group")) }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        // добавляем жест свайп влево
+        val swipeGesture = object : SwipeGesture(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    adapter.removeComponent(viewHolder.adapterPosition)
+                        //showSnackbar()
+                }
+            }
+        }
+        val touchHelper = ItemTouchHelper(swipeGesture)
+        touchHelper.attachToRecyclerView(recyclerView)
+
     }
 
     //Сохранение изменений при возвращении в ScenesActivity
@@ -95,7 +110,7 @@ class SceneComponentsActivity : AppCompatActivity() {
         override fun getDragDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val selectedPosition = viewHolder.adapterPosition
             val isActive: Boolean =
-                adaptor.isExpanded(selectedPosition) // retrieve your model from list and check its active state
+                adapter.isExpanded(selectedPosition) // retrieve your model from list and check its active state
             return if (!isActive) super.getDragDirs(recyclerView, viewHolder) else 0
         }
 
@@ -104,7 +119,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            adaptor.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+            adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
 
@@ -133,14 +148,22 @@ class SceneComponentsActivity : AppCompatActivity() {
             Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
             Log.d("DROP", "ViewHolder drop position - $dropPosition")
             Log.d("DROP", "dY - $dy")
-            if (dropPosition >= 0 && dropPosition < adaptor.itemCount) {
-                adaptor.addLampInGroup(viewHolder.adapterPosition, dropPosition)
+            if (dropPosition >= 0 && dropPosition < adapter.itemCount) {
+                adapter.addLampInGroup(viewHolder.adapterPosition, dropPosition)
             }
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         }
 
+    }
+
+    private fun fetchSceneComponents() {
+        try {
+            adapter.setData(scenes[num].sceneComponents!!)
+        } catch (e : NullPointerException) {
+            Log.e("DBG_TAG", "null in fun fetchAll")
+        }
     }
 
 }
