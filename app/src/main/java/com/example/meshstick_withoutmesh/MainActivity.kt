@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import io.paperdb.Paper
 
 //Начальная сцена
 class MainActivity : AppCompatActivity() {
@@ -15,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         val pref = getSharedPreferences("Scenes", MODE_PRIVATE)
         pref.edit().clear().apply()
+
+        // инициализируем хранилище
+        Paper.init(applicationContext);
 
         //Переход в ScenesActivity
         val btOpenScenes: Button = findViewById(R.id.bt_openScenes)

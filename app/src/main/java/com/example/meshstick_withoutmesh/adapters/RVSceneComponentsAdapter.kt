@@ -15,15 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
-import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.GroupedLamp
-import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.SceneComponents
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
+import io.paperdb.Paper
 import java.util.*
 
-class RVSceneComponentsAdaptor(
-    var items: MutableList<SceneComponents>,
+class RVSceneComponentsAdapter(
+    private val num: Int,
     private val activity: SceneComponentsActivity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -31,46 +29,65 @@ class RVSceneComponentsAdaptor(
     fun onItemMove(fromPosition: Int, toPosition: Int) {
         var start = fromPosition
         var end = toPosition
-        Collections.swap(items, start, end)
+        Collections.swap(scenes[num].sceneComponents, start, end)
         notifyItemMoved(start, end)
         if (toPosition < fromPosition) start = toPosition.also { end = fromPosition }
         notifyItemRangeChanged(start, kotlin.math.abs(start - end) + 1)
+
+        Paper.book().write("scenes", scenes)
     }
 
     //Изменяем данные лампы
     fun changeData(sceneComponent: SceneComponents, position: Int) {
-        items[position] = sceneComponent
+        scenes[num].sceneComponents[position] = sceneComponent
         notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     fun addLampInGroup(lampPosition: Int, groupPosition: Int) {
-        if (!(items[groupPosition] is Group && items[lampPosition] is Lamp)) return
-        val lamp = items[lampPosition] as Lamp
-        (items[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
-        items.removeAt(lampPosition)
+        if (!(scenes[num].sceneComponents[groupPosition] is Group && scenes[num].sceneComponents[lampPosition] is Lamp)) return
+        val lamp = scenes[num].sceneComponents[lampPosition] as Lamp
+        (scenes[num].sceneComponents[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
+        scenes[num].sceneComponents.removeAt(lampPosition)
         notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     //Добавление новой лампы
     fun addLamp(lamp: Lamp) {
-        items.add(lamp)
+        scenes[num].sceneComponents.add(lamp)
         notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     fun addLamp(index: Int, lamp: Lamp) {
-        items.add(index, lamp)
+        scenes[num].sceneComponents.add(index, lamp)
         notifyDataSetChanged()
     }
 
     //Добавление новой группы
     fun addGroup(group: Group) {
-        items.add(group)
+        scenes[num].sceneComponents.add(group)
         notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     fun updateLampInGroup(lamp: GroupedLamp, groupPosition: Int, lampPosition: Int) {
-        (items[groupPosition] as Group).lamps[lampPosition] = lamp
+        (scenes[num].sceneComponents[groupPosition] as Group).lamps[lampPosition] = lamp
         notifyItemChanged(groupPosition)
+
+        Paper.book().write("scenes", scenes)
+    }
+
+    fun removeComponent(position: Int) {
+        scenes[num].sceneComponents.removeAt(position)
+        notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     //Объекты lamp_rv.xml
@@ -86,7 +103,7 @@ class RVSceneComponentsAdaptor(
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
-        lateinit var adaptor: RVLampsOfGroup
+        lateinit var adapter: RVLampsOfGroup
 
         private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -97,7 +114,7 @@ class RVSceneComponentsAdaptor(
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                adaptor.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
                 return true
             }
 
@@ -123,6 +140,7 @@ class RVSceneComponentsAdaptor(
                     adaptor.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
                 }
             }
+
         }
 
         private val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -133,7 +151,7 @@ class RVSceneComponentsAdaptor(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
+        return when (scenes[num].sceneComponents[position]) {
             is Lamp -> 0
             is Group -> 1
             else -> throw Exception("Wrong Type")
@@ -165,13 +183,13 @@ class RVSceneComponentsAdaptor(
 
     private fun onBindViewHolderLamp(holder: ViewHolderLamp, position: Int) {
         //Установка имени лампы
-        val lamp = items[position] as Lamp
+        val lamp = scenes[num].sceneComponents[position] as Lamp
         holder.textView.text = lamp.name
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
 
-            intent.putExtra("component", items[position] as Lamp)
+            intent.putExtra("component", scenes[num].sceneComponents[position] as Lamp)
             intent.putExtra("position_settings", position)
 
             activity.lampsLauncher.launch(intent)
@@ -188,12 +206,12 @@ class RVSceneComponentsAdaptor(
 
     private fun onBindViewHolderGroup(holder: ViewHolderGroup, position: Int) {
         //Установка имени лампы
-        val group = items[position] as Group
+        val group = scenes[num].sceneComponents[position] as Group
         holder.textView.text = group.name
 
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
-        holder.adaptor = RVLampsOfGroup(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
-        holder.rvLamps.adapter = holder.adaptor
+        holder.adapter = RVLampsOfGroup(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
+        holder.rvLamps.adapter = holder.adapter
 
         holder.currentColor.setOnClickListener {
             group.expanded = !group.expanded
@@ -208,7 +226,7 @@ class RVSceneComponentsAdaptor(
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
 
-            intent.putExtra("component", items[position] as Group)
+            intent.putExtra("component", scenes[num].sceneComponents[position] as Group)
             intent.putExtra("position_settings", position)
 
             activity.lampsLauncher.launch(intent)
@@ -224,11 +242,17 @@ class RVSceneComponentsAdaptor(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return scenes[num].sceneComponents.size
+    }
+
+    // функция для восстановления информации при запуске приложения
+    fun setData(items: MutableList<SceneComponents>) {
+        scenes[num].sceneComponents = items
+        notifyDataSetChanged()
     }
 
     fun isExpanded(position: Int): Boolean {
-        val item = items[position]
+        val item = scenes[num].sceneComponents[position]
         if (item is Group) return item.expanded
         return false
     }

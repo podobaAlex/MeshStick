@@ -1,4 +1,4 @@
-package com.example.meshstick_withoutmesh.adaptors
+package com.example.meshstick_withoutmesh.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
 import com.example.meshstick_withoutmesh.types.Scene
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
+import io.paperdb.Paper
 
-class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activity: ScenesActivity) :
-    RecyclerView.Adapter<RVSceneAdaptor.ViewHolder>() {
+class RVSceneAdapter(private val activity: ScenesActivity) :
+    RecyclerView.Adapter<RVSceneAdapter.ViewHolder>() {
 
     //Объекты находящиеся в scene_rv.xml
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,8 +26,10 @@ class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activit
 
     //Добавление сцены
     fun add(scene: Scene) {
-        this.scenes.add(scene)
+        scenes.add(scene)
         notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
     }
 
     //Создание объекта
@@ -53,4 +57,9 @@ class RVSceneAdaptor(private val scenes: MutableList<Scene>, private val activit
     override fun getItemCount(): Int {
         return scenes.size
     }
+
+    fun setData() {
+        notifyDataSetChanged()
+    }
+
 }

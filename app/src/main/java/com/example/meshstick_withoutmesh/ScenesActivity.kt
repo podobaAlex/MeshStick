@@ -8,14 +8,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.meshstick_withoutmesh.adaptors.RVSceneAdaptor
+import com.example.meshstick_withoutmesh.adapters.RVSceneAdapter
 import com.example.meshstick_withoutmesh.types.Scene
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
+import io.paperdb.Paper
 
 class ScenesActivity : AppCompatActivity() {
 
-    private lateinit var adaptor: RVSceneAdaptor
+    private lateinit var adapter: RVSceneAdapter
 
     //Обработка результатов других activity
     val sceneLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -24,7 +25,7 @@ class ScenesActivity : AppCompatActivity() {
                 //Обновляем данные изменённые в LampsActivity
                 1 -> {
                     val pos = result.data!!.getIntExtra("pos", 0)
-                    adaptor.notifyItemChanged(pos)
+                    adapter.notifyItemChanged(pos)
                 }
                 else -> Log.d("RES_CODE", "${result.resultCode}")
             }
@@ -37,9 +38,10 @@ class ScenesActivity : AppCompatActivity() {
 
         val sceneRV = findViewById<RecyclerView>(R.id.rl_scenes)
         sceneRV.layoutManager = LinearLayoutManager(this)
-        adaptor = RVSceneAdaptor(scenes, this)
-        sceneRV.adapter = adaptor
+        adapter = RVSceneAdapter(this)
+        sceneRV.adapter = adapter
 
+        fetchScenes()
     }
 
     //Хот-бар
@@ -62,7 +64,18 @@ class ScenesActivity : AppCompatActivity() {
 
     //Добавление сцены
     private fun addScene() {
-        adaptor.add(Scene())
+        adapter.add(Scene())
     }
+
+    private fun fetchScenes() {
+        try {
+            scenes = Paper.book().read("scenes")!!
+            adapter.setData()
+
+        } catch (e : NullPointerException) {
+            Log.e("DBG_TAG", "null in fun fetchScenes")
+        }
+    }
+
 
 }
