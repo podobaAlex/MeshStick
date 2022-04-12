@@ -14,11 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val pref = getSharedPreferences("Scenes", MODE_PRIVATE)
-        pref.edit().clear().apply()
-
         // инициализируем хранилище
-        Paper.init(applicationContext);
+        Paper.init(applicationContext)
 
         //Переход в ScenesActivity
         val btOpenScenes: Button = findViewById(R.id.bt_openScenes)

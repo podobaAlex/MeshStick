@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
@@ -30,7 +29,6 @@ class RVLampsOfGroup(
         val textView: TextView = itemView.findViewById(R.id.text)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
-        val frame_lamp: ConstraintLayout = itemView.findViewById(R.id.lamp_object)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LampHolder {

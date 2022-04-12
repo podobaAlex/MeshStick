@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
-import com.example.meshstick_withoutmesh.types.*
+import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.SwipeGesture
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 
 class SceneComponentsActivity : AppCompatActivity() {
@@ -74,7 +77,6 @@ class SceneComponentsActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
                     adapter.removeComponent(viewHolder.adapterPosition)
-                        //showSnackbar()
                 }
             }
         }
@@ -148,7 +150,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             super.clearView(recyclerView, viewHolder)
             Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
             Log.d("DROP", "ViewHolder drop position - $dropPosition")
-            if (dropPosition >= 0 && dropPosition < adaptor.itemCount) {
+            if (dropPosition >= 0 && dropPosition < adapter.itemCount) {
                 adapter.addLampInGroup(viewHolder.adapterPosition, dropPosition)
             }
         }
@@ -160,7 +162,7 @@ class SceneComponentsActivity : AppCompatActivity() {
 
     private fun fetchSceneComponents() {
         try {
-            adapter.setData(scenes[num].sceneComponents!!)
+            adapter.setData(scenes[num].sceneComponents)
         } catch (e : NullPointerException) {
             Log.e("DBG_TAG", "null in fun fetchAll")
         }

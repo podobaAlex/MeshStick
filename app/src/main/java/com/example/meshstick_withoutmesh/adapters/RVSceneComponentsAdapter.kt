@@ -1,4 +1,4 @@
-package com.example.meshstick_withoutmesh.adaptors
+package com.example.meshstick_withoutmesh.adapters
 
 import android.content.Intent
 import android.graphics.Canvas
@@ -134,10 +134,10 @@ class RVSceneComponentsAdapter(
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                 Log.d("dY_LAMP_IN_GROUP", "$dY")
                 if (viewHolder.adapterPosition == 0 && dY < -140f) {
-                    adaptor.outOfGroup(adapterPosition, viewHolder.adapterPosition)
+                    adapter.outOfGroup(adapterPosition, viewHolder.adapterPosition)
                 }
-                if (viewHolder.adapterPosition == adaptor.itemCount - 1 && dY > 140f) {
-                    adaptor.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
+                if (viewHolder.adapterPosition == adapter.itemCount - 1 && dY > 140f) {
+                    adapter.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
                 }
             }
 
