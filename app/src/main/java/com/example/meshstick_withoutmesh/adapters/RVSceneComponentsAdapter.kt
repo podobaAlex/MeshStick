@@ -114,7 +114,7 @@ class RVSceneComponentsAdapter(
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                adapter.onItemMove(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
                 return true
             }
 
@@ -133,11 +133,11 @@ class RVSceneComponentsAdapter(
             ) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                 Log.d("dY_LAMP_IN_GROUP", "$dY")
-                if (viewHolder.adapterPosition == 0 && dY < -140f) {
-                    adapter.outOfGroup(adapterPosition, viewHolder.adapterPosition)
+                if (viewHolder.bindingAdapterPosition == 0 && dY < -140f) {
+                    adapter.outOfGroup(bindingAdapterPosition, viewHolder.bindingAdapterPosition)
                 }
-                if (viewHolder.adapterPosition == adapter.itemCount - 1 && dY > 140f) {
-                    adapter.outOfGroup(adapterPosition + 1, viewHolder.adapterPosition)
+                if (viewHolder.bindingAdapterPosition == adapter.itemCount - 1 && dY > 140f) {
+                    adapter.outOfGroup(bindingAdapterPosition + 1, viewHolder.bindingAdapterPosition)
                 }
             }
 

@@ -76,7 +76,7 @@ class SceneComponentsActivity : AppCompatActivity() {
         val swipeGesture = object : SwipeGesture(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
-                    adapter.removeComponent(viewHolder.adapterPosition)
+                    adapter.removeComponent(viewHolder.bindingAdapterPosition)
                 }
             }
         }
@@ -110,7 +110,7 @@ class SceneComponentsActivity : AppCompatActivity() {
 
         @SuppressLint("ClickableViewAccessibility")
         override fun getDragDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val selectedPosition = viewHolder.adapterPosition
+            val selectedPosition = viewHolder.bindingAdapterPosition
             val isActive: Boolean =
                 adapter.isExpanded(selectedPosition) // retrieve your model from list and check its active state
             return if (!isActive) super.getDragDirs(recyclerView, viewHolder) else 0
@@ -121,7 +121,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+            adapter.onItemMove(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
         }
 
@@ -138,9 +138,9 @@ class SceneComponentsActivity : AppCompatActivity() {
             Log.d("DROP", "dY - $dy")
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 dropPosition = when {
-                    dY > 0.8f -> viewHolder.adapterPosition + 1
-                    dY < -0.8f -> viewHolder.adapterPosition - 1
-                    else -> viewHolder.adapterPosition
+                    dY > 0.8f -> viewHolder.bindingAdapterPosition + 1
+                    dY < -0.8f -> viewHolder.bindingAdapterPosition - 1
+                    else -> viewHolder.bindingAdapterPosition
                 }
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
@@ -148,10 +148,10 @@ class SceneComponentsActivity : AppCompatActivity() {
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
-            Log.d("DROP", "ViewHolder drag position - ${viewHolder.adapterPosition}")
+            Log.d("DROP", "ViewHolder drag position - ${viewHolder.bindingAdapterPosition}")
             Log.d("DROP", "ViewHolder drop position - $dropPosition")
             if (dropPosition >= 0 && dropPosition < adapter.itemCount) {
-                adapter.addLampInGroup(viewHolder.adapterPosition, dropPosition)
+                adapter.addLampInGroup(viewHolder.bindingAdapterPosition, dropPosition)
             }
         }
 
