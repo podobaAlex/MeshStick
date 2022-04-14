@@ -18,12 +18,12 @@ import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.myapplication.R
 import java.util.*
 
-class RVLampsOfGroup(
+class RVLampsOfGroupAdapter(
     private val lamps: MutableList<GroupedLamp>,
     private val activity: SceneComponentsActivity,
     private val groupPosition: Int,
     private val color: Int
-) : RecyclerView.Adapter<RVLampsOfGroup.LampHolder>() {
+) : RecyclerView.Adapter<RVLampsOfGroupAdapter.LampHolder>() {
 
     class LampHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.text)

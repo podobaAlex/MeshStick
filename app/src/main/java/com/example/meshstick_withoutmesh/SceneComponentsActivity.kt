@@ -136,11 +136,18 @@ class SceneComponentsActivity : AppCompatActivity() {
         ) {
             dy = dY
             Log.d("DROP", "dY - $dy")
-            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                dropPosition = when {
-                    dY > 0.8f -> viewHolder.bindingAdapterPosition + 1
-                    dY < -0.8f -> viewHolder.bindingAdapterPosition - 1
-                    else -> viewHolder.bindingAdapterPosition
+            if (viewHolder.bindingAdapterPosition >= 0 && viewHolder.bindingAdapterPosition < adapter.itemCount) {
+                if (viewHolder.bindingAdapterPosition != 0 && dY < -140f) {
+                    adapter.addLampInGroup(
+                        viewHolder.bindingAdapterPosition,
+                        viewHolder.bindingAdapterPosition - 1
+                    )
+                }
+                if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > 140f) {
+                    adapter.addLampInGroup(
+                        viewHolder.bindingAdapterPosition,
+                        viewHolder.bindingAdapterPosition + 1
+                    )
                 }
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)

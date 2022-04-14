@@ -46,7 +46,12 @@ class RVSceneComponentsAdapter(
     }
 
     fun addLampInGroup(lampPosition: Int, groupPosition: Int) {
-        if (!(scenes[num].sceneComponents[groupPosition] is Group && scenes[num].sceneComponents[lampPosition] is Lamp)) return
+        if (!(scenes[num].sceneComponents[groupPosition] is Group
+                    && scenes[num].sceneComponents[lampPosition] is Lamp)
+        ) return
+
+        if (!(scenes[num].sceneComponents[groupPosition] as Group).expanded) return
+
         val lamp = scenes[num].sceneComponents[lampPosition] as Lamp
         (scenes[num].sceneComponents[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
         scenes[num].sceneComponents.removeAt(lampPosition)
@@ -103,7 +108,8 @@ class RVSceneComponentsAdapter(
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
-        lateinit var adapter: RVLampsOfGroup
+        val addLampPosition: TextView = itemView.findViewById(R.id.tv_addLampPosition)
+        lateinit var adapter: RVLampsOfGroupAdapter
 
         private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -210,7 +216,8 @@ class RVSceneComponentsAdapter(
         holder.textView.text = group.name
 
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
-        holder.adapter = RVLampsOfGroup(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
+        holder.adapter =
+            RVLampsOfGroupAdapter(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
         holder.rvLamps.adapter = holder.adapter
 
         holder.currentColor.setOnClickListener {
@@ -221,6 +228,7 @@ class RVSceneComponentsAdapter(
 
         val isExpandable = group.expanded
         holder.rvLamps.visibility = if (isExpandable) View.VISIBLE else View.GONE
+        holder.addLampPosition.visibility = if (isExpandable) View.VISIBLE else View.GONE
 
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
