@@ -39,6 +39,9 @@ class RVSceneComponentsAdapter(
 
     //Изменяем данные лампы
     fun changeData(sceneComponent: SceneComponents, position: Int) {
+        if (sceneComponent is Group) {
+            sceneComponent.expanded = (scenes[num].sceneComponents[position] as Group).expanded
+        }
         scenes[num].sceneComponents[position] = sceneComponent
         notifyDataSetChanged()
 

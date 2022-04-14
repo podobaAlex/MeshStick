@@ -11,7 +11,7 @@ class Group(
 ) : SceneComponents, Colored {
 
     var lamps = mutableListOf<GroupedLamp>()
-    var expanded: Boolean = true
+    var expanded: Boolean = false
 
     constructor(name: String) : this(name, 0, 0, 0)
 
@@ -22,7 +22,6 @@ class Group(
         parcel.readInt()
     ) {
         parcel.readParcelableList(lamps, Lamp::class.java.classLoader)
-        expanded = parcel.readBoolean()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -31,7 +30,6 @@ class Group(
         parcel.writeInt(green)
         parcel.writeInt(blue)
         parcel.writeParcelableList(lamps, 0)
-        parcel.writeBoolean(expanded)
     }
 
     override fun describeContents(): Int {
