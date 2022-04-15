@@ -29,6 +29,7 @@ class RVLampsOfGroupAdapter(
         val textView: TextView = itemView.findViewById(R.id.text)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
+        val lampObject: LinearLayout = itemView.findViewById(R.id.lamp_object)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LampHolder {

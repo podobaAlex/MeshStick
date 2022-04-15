@@ -136,14 +136,16 @@ class SceneComponentsActivity : AppCompatActivity() {
         ) {
             dy = dY
             Log.d("DROP", "dY - $dy")
-            if (viewHolder.bindingAdapterPosition >= 0 && viewHolder.bindingAdapterPosition < adapter.itemCount) {
-                if (viewHolder.bindingAdapterPosition != 0 && dY < -140f) {
+            if (viewHolder.bindingAdapterPosition >= 0 && viewHolder.bindingAdapterPosition < adapter.itemCount &&
+                viewHolder is RVSceneComponentsAdapter.ViewHolderLamp
+            ) {
+                if (viewHolder.bindingAdapterPosition != 0 && dY < -viewHolder.lampObject.height - 50) {
                     adapter.addLampInGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition - 1
                     )
                 }
-                if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > 140f) {
+                if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > viewHolder.lampObject.height + 50) {
                     adapter.addLampInGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition + 1

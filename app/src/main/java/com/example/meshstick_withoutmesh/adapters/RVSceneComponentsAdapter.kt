@@ -103,6 +103,7 @@ class RVSceneComponentsAdapter(
         val textView: TextView = itemView.findViewById(R.id.text)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
+        val lampObject: LinearLayout = itemView.findViewById(R.id.lamp_object)
     }
 
     //Объекты group_rv.xml
@@ -142,10 +143,10 @@ class RVSceneComponentsAdapter(
             ) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                 Log.d("dY_LAMP_IN_GROUP", "$dY")
-                if (viewHolder.bindingAdapterPosition == 0 && dY < -140f) {
+                if (viewHolder.bindingAdapterPosition == 0 && dY < -(viewHolder as RVLampsOfGroupAdapter.LampHolder).lampObject.height - 50) {
                     adapter.outOfGroup(bindingAdapterPosition, viewHolder.bindingAdapterPosition)
                 }
-                if (viewHolder.bindingAdapterPosition == adapter.itemCount - 1 && dY > 140f) {
+                if (viewHolder.bindingAdapterPosition == adapter.itemCount - 1 && dY > (viewHolder as RVLampsOfGroupAdapter.LampHolder).lampObject.height + 50) {
                     adapter.outOfGroup(bindingAdapterPosition + 1, viewHolder.bindingAdapterPosition)
                 }
             }

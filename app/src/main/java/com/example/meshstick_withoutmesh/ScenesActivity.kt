@@ -54,7 +54,7 @@ class ScenesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //Добавить сцену
-            R.id.action_add_scene -> {
+            R.id.action_addScene -> {
                 addScene()
                 return true
             }
