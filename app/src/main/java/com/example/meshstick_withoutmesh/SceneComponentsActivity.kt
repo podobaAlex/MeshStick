@@ -6,13 +6,17 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
+import com.example.meshstick_withoutmesh.fragments.SceneRenameDialogFragment
 import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SwipeGesture
@@ -95,8 +99,23 @@ class SceneComponentsActivity : AppCompatActivity() {
 
     //Верхний хот-бар
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_scene_components, menu)
         supportActionBar?.title = scenes[num].getName()
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            //Добавить сцену
+            R.id.action_editSceneName -> {
+                val renameSceneDialog = SceneRenameDialogFragment(scenes[num].getName(), num)
+                val manager: FragmentManager = supportFragmentManager
+                val transaction: FragmentTransaction = manager.beginTransaction()
+                renameSceneDialog.show(transaction, "dialog")
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     //Перемещение объектов recyclerview
