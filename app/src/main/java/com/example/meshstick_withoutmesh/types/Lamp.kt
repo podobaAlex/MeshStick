@@ -10,14 +10,24 @@ class Lamp(
     override var blue: Int
 ) : SceneComponents, Colored {
 
-    constructor(name: String) : this(name, 0, 0, 0)
+    var id: String = "null"
+
+    constructor(id: String) : this("lamp", 0, 0, 0) {
+        this.id = id
+    }
+
+    constructor(groupedLamp: GroupedLamp) : this(groupedLamp.name, 0, 0, 0) {
+        this.id = groupedLamp.id
+    }
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt()
-    )
+    ) {
+        id = parcel.readString()!!
+    }
 
     override fun describeContents(): Int {
         return 0
@@ -28,6 +38,7 @@ class Lamp(
         parcel.writeInt(red)
         parcel.writeInt(green)
         parcel.writeInt(blue)
+        parcel.writeString(id)
     }
 
     companion object CREATOR : Parcelable.Creator<Lamp> {

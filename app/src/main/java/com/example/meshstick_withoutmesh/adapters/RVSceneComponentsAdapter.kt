@@ -98,6 +98,13 @@ class RVSceneComponentsAdapter(
         Paper.book().write("scenes", scenes)
     }
 
+    fun removeComponent(sceneComponent: SceneComponents) {
+        scenes[num].sceneComponents.remove(sceneComponent)
+        notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
+    }
+
     //Объекты lamp_rv.xml
     class ViewHolderLamp(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.text)

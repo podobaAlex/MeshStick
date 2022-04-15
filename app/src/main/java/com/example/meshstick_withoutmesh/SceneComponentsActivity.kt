@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
+import com.example.meshstick_withoutmesh.fragments.MeshDialogFragment
 import com.example.meshstick_withoutmesh.fragments.SceneRenameDialogFragment
 import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SwipeGesture
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
@@ -70,7 +70,12 @@ class SceneComponentsActivity : AppCompatActivity() {
         //восстанавливаем информацию из хранилища
         fetchSceneComponents()
 
-        btAddLamp.setOnClickListener { adapter.addLamp(Lamp("lamp")) }
+        btAddLamp.setOnClickListener {
+            val addLampDialog = MeshDialogFragment(num)
+            val manager: FragmentManager = supportFragmentManager
+            val transaction: FragmentTransaction = manager.beginTransaction()
+            addLampDialog.show(transaction, "dialog")
+        }
         btAddGroup.setOnClickListener { adapter.addGroup(Group("group")) }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -108,7 +113,7 @@ class SceneComponentsActivity : AppCompatActivity() {
         when (item.itemId) {
             //Добавить сцену
             R.id.action_editSceneName -> {
-                val renameSceneDialog = SceneRenameDialogFragment(scenes[num].getName(), num)
+                val renameSceneDialog = SceneRenameDialogFragment(num)
                 val manager: FragmentManager = supportFragmentManager
                 val transaction: FragmentTransaction = manager.beginTransaction()
                 renameSceneDialog.show(transaction, "dialog")
@@ -172,15 +177,6 @@ class SceneComponentsActivity : AppCompatActivity() {
                 }
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-        }
-
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-            super.clearView(recyclerView, viewHolder)
-            Log.d("DROP", "ViewHolder drag position - ${viewHolder.bindingAdapterPosition}")
-            Log.d("DROP", "ViewHolder drop position - $dropPosition")
-            if (dropPosition >= 0 && dropPosition < adapter.itemCount) {
-                adapter.addLampInGroup(viewHolder.bindingAdapterPosition, dropPosition)
-            }
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

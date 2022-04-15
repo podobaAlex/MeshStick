@@ -54,7 +54,13 @@ class MainActivity : AppCompatActivity() {
                 isConnected = !isConnected
                 if (isConnected) {
                     item.setIcon(R.drawable.connected)
-                    connectedLamps.addAll(mutableListOf(Lamp("lamp1"), Lamp("lamp2"), Lamp("lamp3")))
+                    connectedLamps.addAll(
+                        mutableListOf(
+                            Lamp("9184u71987449"),
+                            Lamp("0wjfie09r30"),
+                            Lamp("0239ruwjefji2")
+                        )
+                    )
                     adapter.notifyDataSetChanged()
                 } else {
                     item.setIcon(R.drawable.disconnected)

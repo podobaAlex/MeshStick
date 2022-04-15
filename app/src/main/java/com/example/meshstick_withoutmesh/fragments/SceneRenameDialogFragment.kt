@@ -10,7 +10,7 @@ import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.types.scenes
 import io.paperdb.Paper
 
-class SceneRenameDialogFragment(var sceneName: String, val num: Int) : DialogFragment() {
+class SceneRenameDialogFragment(private val num: Int) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -20,7 +20,7 @@ class SceneRenameDialogFragment(var sceneName: String, val num: Int) : DialogFra
 
             val input = EditText(it)
             input.inputType = InputType.TYPE_CLASS_TEXT
-            input.setText(sceneName)
+            input.setText(scenes[num].getName())
             builder.setView(input)
 
             builder.setPositiveButton("Save") { dialog, id ->

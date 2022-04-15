@@ -62,7 +62,7 @@ class RVLampsOfGroupAdapter(
     }
 
     fun outOfGroup(groupPosition: Int, lampPosition: Int) {
-        activity.adapter.addLamp(groupPosition, Lamp(lamps[lampPosition].name))
+        activity.adapter.addLamp(groupPosition, Lamp(lamps[lampPosition]))
         lamps.removeAt(lampPosition)
     }
 
