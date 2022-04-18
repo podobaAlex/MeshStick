@@ -5,7 +5,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.meshstick_withoutmesh.SettingsActivity">
+        tools:context="com.example.meshstick_withoutmesh.SettingsActivity"
+        android:background="@color/mainWhite"
+>
+
 
     <Button
             android:text="@string/save"

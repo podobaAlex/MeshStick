@@ -71,14 +71,23 @@ class RVSceneComponentsAdapter(
         Paper.book().write("scenes", scenes)
     }
 
-    fun addLamp(index: Int, lamp: Lamp) {
-        scenes[num].sceneComponents.add(index, lamp)
-        notifyDataSetChanged()
+    fun addLamp(position: Int, lamp: Lamp) {
+        scenes[num].sceneComponents.add(position, lamp)
+        notifyItemInserted(position)
+
+        Paper.book().write("scenes", scenes)
     }
 
     //Добавление новой группы
     fun addGroup(group: Group) {
         scenes[num].sceneComponents.add(group)
+        notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
+    }
+
+    fun addGroup(position: Int, group: Group) {
+        scenes[num].sceneComponents.add(position, group)
         notifyDataSetChanged()
 
         Paper.book().write("scenes", scenes)
@@ -98,12 +107,12 @@ class RVSceneComponentsAdapter(
         Paper.book().write("scenes", scenes)
     }
 
-    fun removeComponent(sceneComponent: SceneComponents) {
-        scenes[num].sceneComponents.remove(sceneComponent)
-        notifyDataSetChanged()
-
-        Paper.book().write("scenes", scenes)
-    }
+//    fun removeComponent(sceneComponent: SceneComponents) {
+//        scenes[num].sceneComponents.remove(sceneComponent)
+//        notifyDataSetChanged()
+//
+//        Paper.book().write("scenes", scenes)
+//    }
 
     //Объекты lamp_rv.xml
     class ViewHolderLamp(itemView: View) : RecyclerView.ViewHolder(itemView) {

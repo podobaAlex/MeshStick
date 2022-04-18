@@ -3,15 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_components.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_add.xml" value="0.362962962962963" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_launcher_background.xml" value="0.362962962962963" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_plus.xml" value="0.2994791666666667" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_x.xml" value="0.2994791666666667" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_components.xml" value="0.33" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_lamps.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_saved_scenes.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_scenes.xml" value="0.1796875" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/group_rv.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/lamp_rv.xml" value="0.5" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/saved_scene_rv.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/scene_rv.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_lamps.xml" value="0.19427083333333334" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_main.xml" value="0.38125" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_scene.xml" value="0.19427083333333334" />
       </map>
     </option>

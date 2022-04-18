@@ -32,6 +32,25 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
         Paper.book().write("scenes", scenes)
     }
 
+    fun add(position: Int, scene: Scene) {
+        if (position == scenes.size) {
+            scenes.add(scene)
+        } else {
+            scenes.add(position, scene)
+        }
+        notifyItemInserted(position)
+
+        Paper.book().write("scenes", scenes)
+    }
+
+    fun removeScene(position: Int) {
+        scenes.removeAt(position)
+        //scenes.remove(scene)
+        notifyDataSetChanged()
+
+        Paper.book().write("scenes", scenes)
+    }
+
     //Создание объекта
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.scene_rv, parent, false)

@@ -2,18 +2,18 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:id="@+id/lamp_object"
-        android:background="#abcdef">
+>
 
     <androidx.cardview.widget.CardView
-            android:background="#abcdef"
+            android:background="@color/mainBlue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" app:cardCornerRadius="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="#abcdef"
+                android:background="@color/mainBlue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -45,7 +45,8 @@
                     android:contentDescription="@string/settings"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="16dp" android:layout_marginRight="16dp"/>
+                    android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+                    tools:ignore="TouchTargetSizeCheck"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

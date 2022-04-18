@@ -5,4 +5,4 @@
         android:id="@+id/rl_scenes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.meshstick_withoutmesh.ScenesActivity"/>
+        tools:context="com.example.meshstick_withoutmesh.ScenesActivity" android:background="@color/mainWhite"/>

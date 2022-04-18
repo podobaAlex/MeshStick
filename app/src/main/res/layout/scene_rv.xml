@@ -2,7 +2,6 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="#abcdef"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -10,9 +9,9 @@
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" app:cardCornerRadius="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="#abcdef"
+                android:background="@color/mainBlue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -24,7 +23,8 @@
                     android:textSize="30sp"
                     android:textColor="#000000"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"/>
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
+                    android:paddingLeft="15dp" android:paddingTop="10dp"/>
             <TextView
                     android:text="@string/lamps"
 
@@ -52,7 +52,7 @@
                     android:clickable="true" app:srcCompat="@drawable/control_panel" android:id="@+id/bt_control"
                     android:contentDescription="@string/settings" android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            />
+                    android:paddingRight="5dp" android:paddingTop="10dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

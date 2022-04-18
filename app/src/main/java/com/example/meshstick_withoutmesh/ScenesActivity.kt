@@ -6,12 +6,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneAdapter
-import com.example.meshstick_withoutmesh.types.Scene
-import com.example.meshstick_withoutmesh.types.scenes
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
+import com.google.android.material.snackbar.Snackbar
 import io.paperdb.Paper
 
 class ScenesActivity : AppCompatActivity() {
@@ -36,12 +37,30 @@ class ScenesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scenes)
 
-        val sceneRV = findViewById<RecyclerView>(R.id.rl_scenes)
+        val sceneRV : RecyclerView = findViewById(R.id.rl_scenes)
         sceneRV.layoutManager = LinearLayoutManager(this)
         adapter = RVSceneAdapter(this)
         sceneRV.adapter = adapter
 
         fetchScenes()
+
+        // свайп влево - удаление сцены
+        val swipeGesture = object : SwipeGesture(this@ScenesActivity) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    val position = viewHolder.bindingAdapterPosition
+                    val deletedScene = scenes[position]
+                    adapter.removeScene(position)
+                    Snackbar.make(sceneRV, "Сцена удалена", Snackbar.LENGTH_LONG)
+                        .setAction("Отменить") {
+                            adapter.add(position, deletedScene)
+                        }
+                        .show()
+                }
+            }
+        }
+        val touchHelper = ItemTouchHelper(swipeGesture)
+        touchHelper.attachToRecyclerView(sceneRV)
     }
 
     //Хот-бар
@@ -76,6 +95,8 @@ class ScenesActivity : AppCompatActivity() {
             Log.e("DBG_TAG", "null in fun fetchScenes")
         }
     }
+
+
 
 
 }

@@ -7,31 +7,38 @@
         android:layout_height="match_parent"
         tools:context="com.example.meshstick_withoutmesh.SceneComponentsActivity" android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rl_components"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-    />
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_components"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="0dp"
+                android:background="@color/mainWhite"/>
         <Button
-                android:text="@string/add_group"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp" android:id="@+id/bt_addGroup"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
-                app:layout_constraintVertical_bias="0.497"/>
+                android:layout_height="wrap_content" android:id="@+id/bt_addLamp"
+                android:background="@drawable/ic_addlamp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="25dp" android:layout_marginEnd="25dp"
+                tools:ignore="SpeakableTextPresentCheck" android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="119dp"/>
         <Button
-                android:text="@string/add_lamp"
+                android:layout_width="54dp"
+                android:layout_height="54dp" android:id="@+id/bt_add"
+                android:background="@drawable/ic_add" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginRight="25dp"
+                android:layout_marginEnd="25dp" android:layout_marginBottom="45dp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+        <Button
                 android:layout_width="wrap_content"
-                android:layout_height="50dp" android:id="@+id/bt_addLamp"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.497" android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_height="wrap_content" android:id="@+id/bt_addGroup"
+                android:background="@drawable/ic_addgroup"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="25dp" android:layout_marginEnd="25dp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_addLamp" android:layout_marginBottom="20dp"
+                tools:ignore="SpeakableTextPresentCheck" android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
