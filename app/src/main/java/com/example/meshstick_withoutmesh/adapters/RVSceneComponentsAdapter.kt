@@ -73,7 +73,7 @@ class RVSceneComponentsAdapter(
 
     fun addLamp(position: Int, lamp: Lamp) {
         scenes[num].sceneComponents.add(position, lamp)
-        notifyItemInserted(position)
+        notifyDataSetChanged()
 
         Paper.book().write("scenes", scenes)
     }
