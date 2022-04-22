@@ -1,14 +1,19 @@
 package com.example.meshstick_withoutmesh
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Canvas
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -62,9 +67,9 @@ class SceneComponentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_components)
 
-        var btAddLamp: Button = findViewById(R.id.bt_addLamp)
-        var btAddGroup: Button = findViewById(R.id.bt_addGroup)
-        val btAdd: Button = findViewById(R.id.bt_add)
+        val btAddLamp: Button = findViewById(R.id.bt_addLamp)
+        val btAddGroup: Button = findViewById(R.id.bt_addGroup)
+        val btAdd: ImageView = findViewById(R.id.bt_add)
 
         val recyclerView: RecyclerView = findViewById(R.id.rl_components)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -76,19 +81,41 @@ class SceneComponentsActivity : AppCompatActivity() {
         //восстанавливаем информацию из хранилища
         fetchSceneComponents()
 
-        var animator: ValueAnimator? = null
         var btnExpanded = false
+
         btAdd.setOnClickListener {
-            activateButtons(btAddGroup, btAddLamp, true)
-            animator = createAnimator()
-            animator!!.start()
-            btnExpanded = true
+            if (!btnExpanded) {
+                animateButton(btAdd)
+                activateButtons(btAddGroup, btAddLamp, true)
+                // анимация для кнопок addGroup, addLamp
+                scaleButton(btAddGroup, 0.6f, 1.0f)
+                scaleButton(btAddLamp, 0.6f, 1.0f)
+
+                btnExpanded = true
+
+            } else {
+                val reverse = true
+                animateButton(btAdd, reverse)
+
+                scaleButton(btAddGroup, 1.0f, 0.6f)
+                scaleButton(btAddLamp, 1.0f, 0.6f)
+
+                activateButtons(btAddGroup, btAddLamp, false)
+                btnExpanded = false
+            }
         }
+        // скрываем кнопки addLamp и addGroup при скроллинге rv
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (animator != null && btnExpanded) {
-                    animator!!.reverse()
+                if (btnExpanded) {
+                    // обратная анимация для кнопки btAdd
+                    val reverse = true
+                    animateButton(btAdd, reverse)
+                    // обратная анимация и отключение кнопок btAddGroup, btAddLamp
+                    scaleButton(btAddGroup, 1.0f, 0.6f)
+                    scaleButton(btAddLamp, 1.0f, 0.6f)
+
                     activateButtons(btAddGroup, btAddLamp, false)
                     btnExpanded = false
                 }
@@ -100,8 +127,29 @@ class SceneComponentsActivity : AppCompatActivity() {
             val manager: FragmentManager = supportFragmentManager
             val transaction: FragmentTransaction = manager.beginTransaction()
             addLampDialog.show(transaction, "dialog")
+
+            val reverse = true
+            animateButton(btAdd, reverse)
+
+            scaleButton(btAddGroup, 1.0f, 0.6f)
+            scaleButton(btAddLamp, 1.0f, 0.6f)
+
+            activateButtons(btAddGroup, btAddLamp, false)
+            btnExpanded = false
         }
-        btAddGroup.setOnClickListener { adapter.addGroup(Group("group")) }
+        btAddGroup.setOnClickListener {
+            adapter.addGroup(Group("group"))
+
+            val reverse = true
+            animateButton(btAdd, reverse)
+
+            scaleButton(btAddGroup, 1.0f, 0.6f)
+            scaleButton(btAddLamp, 1.0f, 0.6f)
+
+            activateButtons(btAddGroup, btAddLamp, false)
+            btnExpanded = false
+
+        }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -118,7 +166,6 @@ class SceneComponentsActivity : AppCompatActivity() {
                             when (deletedItem) {
                                 is Lamp -> adapter.addLamp(position, deletedItem)
                                 is Group -> adapter.addGroup(position, deletedItem)
-                                // между layoutPosition, adapterPosition, bindingAdapterPosition, absoluteAdapterPosition разницы не заметил
                             }
                         }
                         .show()
@@ -129,6 +176,7 @@ class SceneComponentsActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(recyclerView)
 
     }
+
 
     //Сохранение изменений при возвращении в ScenesActivity
     override fun onBackPressed() {
@@ -228,28 +276,30 @@ class SceneComponentsActivity : AppCompatActivity() {
         }
     }
 
-    private fun createAnimator(): ValueAnimator {
-        val btAdd : Button = findViewById(R.id.bt_add)
-        val initSize = btAdd.measuredWidth
-        val animator = ValueAnimator.ofInt(initSize, 0)
-        animator.duration = 250
-
-        animator.addUpdateListener { animation ->
-            val value = animation.animatedValue as Int
-            val layoutParams = btAdd.layoutParams
-            layoutParams.width = value
-            layoutParams.height = value
-            btAdd.requestLayout()
-        }
-        return animator
-    }
 
     // функция для активации кнопок addGroup, addLamp
-    private fun activateButtons(btAddGroup: Button, btAddLamp: Button, value : Boolean) {
+    private fun activateButtons(btAddGroup: Button, btAddLamp: Button, value: Boolean) {
         btAddLamp.isVisible = value
         btAddLamp.isEnabled = value
         btAddGroup.isVisible = value
         btAddGroup.isEnabled = value
     }
 
+    private fun scaleButton(button: Button, fromValue: Float, toValue: Float) {
+        val set = AnimatorSet()
+        val scaleX = ObjectAnimator.ofFloat(button, View.SCALE_X, fromValue, toValue).setDuration(200)
+        val scaleY = ObjectAnimator.ofFloat(button, View.SCALE_Y, fromValue, toValue).setDuration(200)
+        set.playTogether(scaleX, scaleY)
+        set.start()
+    }
+
+    private fun animateButton(btAdd: ImageView, reverseDirection: Boolean = false) {
+        if (reverseDirection) {
+            btAdd.setImageResource(R.drawable.avd_anim_reverse)
+        } else {
+            btAdd.setImageResource(R.drawable.avd_anim)
+        }
+        val animation = btAdd.drawable as AnimatedVectorDrawable
+        animation.start()
+    }
 }

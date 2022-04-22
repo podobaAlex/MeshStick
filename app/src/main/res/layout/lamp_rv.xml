@@ -3,15 +3,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_margin="5dp"
         android:id="@+id/lamp_object"
->
+        android:paddingLeft="10dp" android:paddingRight="10dp">
 
     <androidx.cardview.widget.CardView
             android:background="@color/mainBlue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" app:cardCornerRadius="20dp">
+            android:layout_height="wrap_content" app:cardCornerRadius="15dp" android:layout_gravity="center_vertical"
+            app:cardElevation="10dp">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:background="@color/mainBlue"
                 android:layout_width="match_parent"
@@ -25,12 +26,12 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/current_color"
-                    app:layout_constraintEnd_toStartOf="@+id/bt_settings" app:layout_constraintHorizontal_bias="0.056"
-                    app:layout_constraintVertical_bias="0.526"/>
+                    app:layout_constraintVertical_bias="0.526" android:textColor="@color/mainWhite"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_settings"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:id="@+id/current_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
@@ -38,15 +39,15 @@
                     app:layout_constraintVertical_bias="0.0">
             </LinearLayout>
             <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:layout_height="0dp"
                     android:background="#00ABCDEF"
-                    app:srcCompat="@drawable/control_panel" android:id="@+id/bt_settings"
+                    app:srcCompat="@drawable/gradient_lamp_color" android:id="@+id/bt_settings"
                     android:contentDescription="@string/settings"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
-                    tools:ignore="TouchTargetSizeCheck"/>
+                    tools:ignore="TouchTargetSizeCheck"
+                    app:layout_constraintVertical_bias="0.0"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
