@@ -9,10 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SceneComponents
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 
 class SettingsActivity : AppCompatActivity() {
-    //private var pref: SharedPreferences = getSharedPreferences("Test", MODE_PRIVATE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -26,8 +27,12 @@ class SettingsActivity : AppCompatActivity() {
 
         val groupedLamp = this.intent.getIntExtra("group", 0)
         val groupPosition = this.intent.getIntExtra("group_position", -1)
+        val scenePosition = this.intent.getIntExtra("scene_position", -1)
 
         if (groupedLamp == 1) {
+            sbRed.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).red
+            sbGreen.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).green
+            sbBlue.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).blue
             sbRed.visibility = View.GONE
             sbGreen.visibility = View.GONE
             sbBlue.visibility = View.GONE

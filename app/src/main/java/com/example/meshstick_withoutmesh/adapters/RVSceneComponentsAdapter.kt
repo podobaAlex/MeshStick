@@ -236,8 +236,7 @@ class RVSceneComponentsAdapter(
         holder.textView.text = group.name
 
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
-        holder.adapter =
-            RVLampsOfGroupAdapter(group.lamps, activity, position, Color.rgb(group.red, group.green, group.blue))
+        holder.adapter = RVLampsOfGroupAdapter(activity, num, position, Color.rgb(group.red, group.green, group.blue))
         holder.rvLamps.adapter = holder.adapter
 
         holder.currentColor.setOnClickListener {

@@ -2,7 +2,6 @@ package com.example.meshstick_withoutmesh
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Canvas
@@ -247,13 +246,16 @@ class SceneComponentsActivity : AppCompatActivity() {
             if (viewHolder.bindingAdapterPosition >= 0 && viewHolder.bindingAdapterPosition < adapter.itemCount &&
                 viewHolder is RVSceneComponentsAdapter.ViewHolderLamp
             ) {
-                if (viewHolder.bindingAdapterPosition != 0 && dY < -viewHolder.lampObject.height - 50) {
+                Log.d("DROP", "${viewHolder.lampObject.height}")
+                if (viewHolder.bindingAdapterPosition != 0 && dY < -viewHolder.lampObject.height + 25) {
+                    Log.d("LAMP ADDED IN GROUP", "UP")
                     adapter.addLampInGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition - 1
                     )
                 }
-                if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > viewHolder.lampObject.height + 50) {
+                if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > viewHolder.lampObject.height - 25) {
+                    Log.d("LAMP ADDED IN GROUP", "DOWN")
                     adapter.addLampInGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition + 1

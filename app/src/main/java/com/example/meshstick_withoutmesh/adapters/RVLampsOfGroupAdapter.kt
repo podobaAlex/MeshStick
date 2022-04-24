@@ -13,14 +13,15 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
-import com.example.meshstick_withoutmesh.types.GroupedLamp
+import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 import java.util.*
 
 class RVLampsOfGroupAdapter(
-    private val lamps: MutableList<GroupedLamp>,
     private val activity: SceneComponentsActivity,
+    private val scenePosition: Int,
     private val groupPosition: Int,
     private val color: Int
 ) : RecyclerView.Adapter<RVLampsOfGroupAdapter.LampHolder>() {
@@ -41,15 +42,19 @@ class RVLampsOfGroupAdapter(
     @SuppressLint("ShowToast")
     override fun onBindViewHolder(holder: LampHolder, position: Int) {
         //Установка имени лампы
-        holder.textView.text = lamps[position].name
+        holder.textView.text = (scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps[position].name
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
 
-            intent.putExtra("component", lamps[position])
+            intent.putExtra(
+                "component",
+                (scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps[position]
+            )
             intent.putExtra("position_settings", position)
             intent.putExtra("group", 1)
             intent.putExtra("group_position", groupPosition)
+            intent.putExtra("scene_position", scenePosition)
 
             activity.lampsLauncher.launch(intent)
         }
@@ -62,20 +67,24 @@ class RVLampsOfGroupAdapter(
     }
 
     fun outOfGroup(groupPosition: Int, lampPosition: Int) {
-        activity.adapter.addLamp(groupPosition, Lamp(lamps[lampPosition]))
-        lamps.removeAt(lampPosition)
+        activity.adapter.addLamp(
+            groupPosition,
+            Lamp((scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps[lampPosition])
+        )
+
+        (scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps.removeAt(lampPosition)
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int) {
         var start = fromPosition
         var end = toPosition
-        Collections.swap(lamps, start, end)
+        Collections.swap((scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps, start, end)
         notifyItemMoved(start, end)
         if (toPosition < fromPosition) start = toPosition.also { end = fromPosition }
         notifyItemRangeChanged(start, kotlin.math.abs(start - end) + 1)
     }
 
     override fun getItemCount(): Int {
-        return lamps.size
+        return (scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps.size
     }
 }
