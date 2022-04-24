@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneAdapter
-import com.example.meshstick_withoutmesh.types.*
+import com.example.meshstick_withoutmesh.types.Scene
+import com.example.meshstick_withoutmesh.types.SwipeGesture
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 import com.google.android.material.snackbar.Snackbar
 import io.paperdb.Paper

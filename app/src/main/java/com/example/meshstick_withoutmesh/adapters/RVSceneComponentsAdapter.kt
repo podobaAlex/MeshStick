@@ -116,7 +116,7 @@ class RVSceneComponentsAdapter(
 
     //Объекты lamp_rv.xml
     class ViewHolderLamp(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.text)
+        val textView: TextView = itemView.findViewById(R.id.tv_lampName)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
         val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
         val lampObject: LinearLayout = itemView.findViewById(R.id.lamp_object)

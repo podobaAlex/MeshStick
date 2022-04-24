@@ -8,16 +8,17 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.meshstick_withoutmesh.adapters.RVConnectedLampsAdapter
+import com.example.meshstick_withoutmesh.adapters.RVConnectedMeshesAdapter
 import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.connectedLamps
+import com.example.meshstick_withoutmesh.types.Mesh
+import com.example.meshstick_withoutmesh.types.connectedMeshes
 import com.example.myapplication.R
 import io.paperdb.Paper
 
 //Начальная сцена
 class MainActivity : AppCompatActivity() {
 
-    val adapter: RVConnectedLampsAdapter = RVConnectedLampsAdapter()
+    private val adapter: RVConnectedMeshesAdapter = RVConnectedMeshesAdapter(this)
     var isConnected: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,17 +55,13 @@ class MainActivity : AppCompatActivity() {
                 isConnected = !isConnected
                 if (isConnected) {
                     item.setIcon(R.drawable.connected)
-                    connectedLamps.addAll(
-                        mutableListOf(
-                            Lamp("9184u71987449"),
-                            Lamp("0wjfie09r30"),
-                            Lamp("0239ruwjefji2")
-                        )
-                    )
+                    connectedMeshes.addAll(mutableListOf(Mesh("mesh1"), Mesh("mesh2")))
+                    connectedMeshes[0].lamps.addAll(mutableListOf(Lamp("eofeoifj"), Lamp("019joisdjf")))
+                    connectedMeshes[1].lamps.addAll(mutableListOf(Lamp("eofdfifj"), Lamp("9joisdjf")))
                     adapter.notifyDataSetChanged()
                 } else {
                     item.setIcon(R.drawable.disconnected)
-                    connectedLamps.clear()
+                    connectedMeshes.clear()
                     adapter.notifyDataSetChanged()
                 }
                 return true
