@@ -17,12 +17,13 @@ import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
+import io.paperdb.Paper
 import java.util.*
 
 class RVLampsOfGroupAdapter(
     private val activity: SceneComponentsActivity,
     private val scenePosition: Int,
-    private val groupPosition: Int,
+    private var groupPosition: Int,
     private val color: Int
 ) : RecyclerView.Adapter<RVLampsOfGroupAdapter.LampHolder>() {
 
@@ -66,13 +67,16 @@ class RVLampsOfGroupAdapter(
         holder.currentColor.setBackgroundColor(color)
     }
 
-    fun outOfGroup(groupPosition: Int, lampPosition: Int) {
+    fun outOfGroup(newPosition: Int, lampPosition: Int) {
+        val newLamp = Lamp((scenes[scenePosition].sceneComponents[this.groupPosition] as Group).lamps[lampPosition])
+        (scenes[scenePosition].sceneComponents[this.groupPosition] as Group).lamps.removeAt(lampPosition)
         activity.adapter.addLamp(
-            groupPosition,
-            Lamp((scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps[lampPosition])
+            newPosition,
+            newLamp
         )
+        if (newPosition == this.groupPosition) groupPosition++
 
-        (scenes[scenePosition].sceneComponents[groupPosition] as Group).lamps.removeAt(lampPosition)
+        Paper.book().write("scenes", scenes)
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int) {
