@@ -40,6 +40,14 @@ class RVConnectedMeshesAdapter(private val activity: MainActivity) :
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
         holder.adapter = RVLampsOfMeshAdapter(position)
         holder.rvLamps.adapter = holder.adapter
+
+//        holder.textView.setOnClickListener {
+//            val meshPasswordDialogFragment = MeshPasswordDialogFragment(position)
+//            val manager: FragmentManager = activity.supportFragmentManager
+//            val transaction: FragmentTransaction = manager.beginTransaction()
+//            meshPasswordDialogFragment.show(transaction, "dialog")
+//        }
+
     }
 
     override fun getItemCount(): Int {
