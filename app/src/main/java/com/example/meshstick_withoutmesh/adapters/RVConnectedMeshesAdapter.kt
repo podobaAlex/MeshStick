@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.MainActivity
+import com.example.meshstick_withoutmesh.fragments.MeshPasswordDialogFragment
 import com.example.meshstick_withoutmesh.types.connectedMeshes
 import com.example.myapplication.R
 
@@ -41,12 +44,12 @@ class RVConnectedMeshesAdapter(private val activity: MainActivity) :
         holder.adapter = RVLampsOfMeshAdapter(position)
         holder.rvLamps.adapter = holder.adapter
 
-//        holder.textView.setOnClickListener {
-//            val meshPasswordDialogFragment = MeshPasswordDialogFragment(position)
-//            val manager: FragmentManager = activity.supportFragmentManager
-//            val transaction: FragmentTransaction = manager.beginTransaction()
-//            meshPasswordDialogFragment.show(transaction, "dialog")
-//        }
+        holder.textView.setOnClickListener {
+            val meshPasswordDialogFragment = MeshPasswordDialogFragment(position)
+            val manager: FragmentManager = activity.supportFragmentManager
+            val transaction: FragmentTransaction = manager.beginTransaction()
+            meshPasswordDialogFragment.show(transaction, "dialog")
+        }
 
     }
 
