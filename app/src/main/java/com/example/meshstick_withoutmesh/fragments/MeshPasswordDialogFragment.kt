@@ -2,14 +2,14 @@ package com.example.meshstick_withoutmesh.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.net.wifi.WifiManager
-import android.net.wifi.WifiNetworkSuggestion
+import android.net.wifi.WifiConfiguration
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.meshstick_withoutmesh.types.connectedMeshes
 import com.example.meshstick_withoutmesh.types.wifiManager
+import com.example.myapplication.BuildConfig
 
 class MeshPasswordDialogFragment(private val num: Int) : DialogFragment() {
 
@@ -24,14 +24,23 @@ class MeshPasswordDialogFragment(private val num: Int) : DialogFragment() {
 
             builder.setPositiveButton("Save") { dialog, id ->
                 run {
-                    val mesh = WifiNetworkSuggestion.Builder().setSsid(connectedMeshes[num].name)
-                        .setWpa2Passphrase(input.text.toString()).build()
-                    val status = wifiManager.addNetworkSuggestions(listOf(mesh))
-                    when (status) {
-                        WifiManager.STATUS_SUGGESTION_CONNECTION_FAILURE_AUTHENTICATION -> {
-                            Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_LONG)
-                        }
-                    }
+                    val mesh = WifiConfiguration()
+                    mesh.SSID = connectedMeshes[num].name
+                    mesh.preSharedKey = input.text.toString()
+                    val newId = wifiManager.addNetwork(mesh)
+                    if (BuildConfig.DEBUG) Log.i("DBG_TAG", "Result of addNetwork: $newId")
+                    wifiManager.disconnect()
+                    wifiManager.enableNetwork(newId, true)
+                    wifiManager.reconnect()
+
+//                    val mesh = WifiNetworkSuggestion.Builder().setSsid(connectedMeshes[num].name)
+//                        .setWpa2Passphrase(input.text.toString()).build()
+//                    val status = wifiManager.addNetworkSuggestions(listOf(mesh))
+//                    when (status) {
+//                        WifiManager.STATUS_SUGGESTION_CONNECTION_FAILURE_AUTHENTICATION -> {
+//                            Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_LONG)
+//                        }
+//                    }
                 }
             }
 
