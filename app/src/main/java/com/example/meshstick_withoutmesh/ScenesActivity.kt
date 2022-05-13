@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -39,12 +40,15 @@ class ScenesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scenes)
 
-        val sceneRV : RecyclerView = findViewById(R.id.rl_scenes)
+        val sceneRV: RecyclerView = findViewById(R.id.rl_scenes)
         sceneRV.layoutManager = LinearLayoutManager(this)
         adapter = RVSceneAdapter(this)
         sceneRV.adapter = adapter
 
         fetchScenes()
+
+        // кнопка "назад" в action bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // свайп влево - удаление сцены
         val swipeGesture = object : SwipeGesture(this@ScenesActivity) {
@@ -63,6 +67,11 @@ class ScenesActivity : AppCompatActivity() {
         }
         val touchHelper = ItemTouchHelper(swipeGesture)
         touchHelper.attachToRecyclerView(sceneRV)
+
+        val btAdd: LinearLayout = findViewById(R.id.bt_add_mesh)
+        btAdd.setOnClickListener {
+            addScene()
+        }
     }
 
     //Хот-бар
@@ -75,8 +84,12 @@ class ScenesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //Добавить сцену
-            R.id.action_addScene -> {
-                addScene()
+//            R.id.action_addScene -> {
+//                addScene()
+//                return true
+//            }
+            android.R.id.home -> {
+                finish()
                 return true
             }
         }

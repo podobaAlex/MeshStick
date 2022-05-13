@@ -11,10 +11,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -36,7 +37,6 @@ class SceneComponentsActivity : AppCompatActivity() {
     lateinit var adapter: RVSceneComponentsAdapter
     private var num: Int = 0
 
-    //private var  sceneComponents: MutableList<SceneComponents>? = null
 
     //Обработка результатов с других activity
     val lampsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -66,10 +66,10 @@ class SceneComponentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_components)
 
-        val btAddLamp: Button = findViewById(R.id.bt_addLamp)
-        val btAddGroup: Button = findViewById(R.id.bt_addGroup)
-        val btAdd: ImageView = findViewById(R.id.bt_add)
-
+        val btAddLamp: LinearLayout = findViewById(R.id.bt_addLamp)
+        val btAddGroup: LinearLayout = findViewById(R.id.bt_addGroup)
+        val btAdd: LinearLayout = findViewById(R.id.bt_add_mesh)
+        val btAddImage: ImageView = findViewById(R.id.bt_add_image)
         val recyclerView: RecyclerView = findViewById(R.id.rl_components)
         recyclerView.layoutManager = LinearLayoutManager(this)
         num = this.intent.getIntExtra("num", 0)
@@ -80,11 +80,13 @@ class SceneComponentsActivity : AppCompatActivity() {
         //восстанавливаем информацию из хранилища
         fetchSceneComponents()
 
-        var btnExpanded = false
+        // кнопка "назад" в action bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        var btnExpanded = false
         btAdd.setOnClickListener {
             if (!btnExpanded) {
-                animateButton(btAdd)
+                animateButton(btAddImage)
                 activateButtons(btAddGroup, btAddLamp, true)
                 // анимация для кнопок addGroup, addLamp
                 scaleButton(btAddGroup, 0.6f, 1.0f)
@@ -94,7 +96,7 @@ class SceneComponentsActivity : AppCompatActivity() {
 
             } else {
                 val reverse = true
-                animateButton(btAdd, reverse)
+                animateButton(btAddImage, reverse)
 
                 scaleButton(btAddGroup, 1.0f, 0.6f)
                 scaleButton(btAddLamp, 1.0f, 0.6f)
@@ -110,7 +112,7 @@ class SceneComponentsActivity : AppCompatActivity() {
                 if (btnExpanded) {
                     // обратная анимация для кнопки btAdd
                     val reverse = true
-                    animateButton(btAdd, reverse)
+                    animateButton(btAddImage, reverse)
                     // обратная анимация и отключение кнопок btAddGroup, btAddLamp
                     scaleButton(btAddGroup, 1.0f, 0.6f)
                     scaleButton(btAddLamp, 1.0f, 0.6f)
@@ -128,7 +130,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             addLampDialog.show(transaction, "dialog")
 
             val reverse = true
-            animateButton(btAdd, reverse)
+            animateButton(btAddImage, reverse)
 
             scaleButton(btAddGroup, 1.0f, 0.6f)
             scaleButton(btAddLamp, 1.0f, 0.6f)
@@ -140,7 +142,7 @@ class SceneComponentsActivity : AppCompatActivity() {
             adapter.addGroup(Group("group"))
 
             val reverse = true
-            animateButton(btAdd, reverse)
+            animateButton(btAddImage, reverse)
 
             scaleButton(btAddGroup, 1.0f, 0.6f)
             scaleButton(btAddLamp, 1.0f, 0.6f)
@@ -177,6 +179,8 @@ class SceneComponentsActivity : AppCompatActivity() {
     }
 
 
+
+
     //Сохранение изменений при возвращении в ScenesActivity
     override fun onBackPressed() {
         intent = Intent(this, ScenesActivity::class.java)
@@ -202,9 +206,14 @@ class SceneComponentsActivity : AppCompatActivity() {
                 renameSceneDialog.show(transaction, "dialog")
                 return true
             }
+            android.R.id.home -> {
+                finish()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     //Перемещение объектов recyclerview
     private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
@@ -249,14 +258,14 @@ class SceneComponentsActivity : AppCompatActivity() {
                 Log.d("DROP", "${viewHolder.lampObject.height}")
                 if (viewHolder.bindingAdapterPosition != 0 && dY < -viewHolder.lampObject.height + 25) {
                     Log.d("LAMP ADDED IN GROUP", "UP")
-                    adapter.addLampInGroup(
+                    adapter.addLampToGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition - 1
                     )
                 }
                 if (viewHolder.bindingAdapterPosition != adapter.itemCount - 1 && dY > viewHolder.lampObject.height - 25) {
                     Log.d("LAMP ADDED IN GROUP", "DOWN")
-                    adapter.addLampInGroup(
+                    adapter.addLampToGroup(
                         viewHolder.bindingAdapterPosition,
                         viewHolder.bindingAdapterPosition + 1
                     )
@@ -280,14 +289,14 @@ class SceneComponentsActivity : AppCompatActivity() {
 
 
     // функция для активации кнопок addGroup, addLamp
-    private fun activateButtons(btAddGroup: Button, btAddLamp: Button, value: Boolean) {
+    private fun activateButtons(btAddGroup: LinearLayout, btAddLamp: LinearLayout, value: Boolean) {
         btAddLamp.isVisible = value
         btAddLamp.isEnabled = value
         btAddGroup.isVisible = value
         btAddGroup.isEnabled = value
     }
 
-    private fun scaleButton(button: Button, fromValue: Float, toValue: Float) {
+    private fun scaleButton(button: LinearLayout, fromValue: Float, toValue: Float) {
         val set = AnimatorSet()
         val scaleX = ObjectAnimator.ofFloat(button, View.SCALE_X, fromValue, toValue).setDuration(200)
         val scaleY = ObjectAnimator.ofFloat(button, View.SCALE_Y, fromValue, toValue).setDuration(200)
@@ -304,4 +313,11 @@ class SceneComponentsActivity : AppCompatActivity() {
         val animation = btAdd.drawable as AnimatedVectorDrawable
         animation.start()
     }
+
+    // при изменении цвета у компоненты будет меняться цвет у виджета сцены
+    private fun setSceneWidgetColor() {
+
+    }
+
+
 }

@@ -13,5 +13,7 @@
     <color name="mainBlue">#393E46</color>
     <color name="mainWhite">#f6f6e9</color>
     <color name="mainOrange">#fd5f00</color>
+    <color name="darkOrange">#861600</color>
+    <color name="green">#00FF0A</color>
 
 </resources>

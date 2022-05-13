@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -12,15 +13,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVConnectedMeshesAdapter
-import com.example.meshstick_withoutmesh.types.Mesh
-import com.example.meshstick_withoutmesh.types.connectedMeshes
-import com.example.meshstick_withoutmesh.types.scanResults
-import com.example.meshstick_withoutmesh.types.wifiManager
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 import io.paperdb.Paper
 
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
 
         wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
@@ -50,6 +54,51 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val btAddMesh: LinearLayout  = findViewById(R.id.bt_add_mesh)
+        val btAddMeshImage: ImageView  = findViewById(R.id.bt_add_mesh_image)
+        btAddMesh.setOnClickListener {
+            isConnected = !isConnected
+            if (isConnected) {
+                animateButton(btAddMeshImage)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(
+                            Manifest.permission.ACCESS_WIFI_STATE,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ),
+                        PackageManager.PERMISSION_GRANTED
+                    )
+                    //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overridden method
+
+                } else {
+                    connectToWifi()
+                    //do something, permission was previously granted; or legacy device
+                }
+            } else {
+                val reverse = true
+                animateButton(btAddMeshImage, reverse)
+                connectedMeshes.clear()
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+    }
+
+
+
+    private fun animateButton(btAdd: ImageView, reverseDirection: Boolean = false) {
+        val backgroundImage: ImageView = findViewById(R.id.imageBackground)
+        if (reverseDirection) {
+            btAdd.setImageResource(R.drawable.avd_anim_connection_reverse)
+            backgroundImage.animate().alpha(1f)
+        } else {
+            btAdd.setImageResource(R.drawable.avd_anim_connection)
+            backgroundImage.animate().alpha(0.5f).duration = 50
+            val animation = btAdd.drawable as AnimatedVectorDrawable
+            animation.start()
+        }
     }
 
     //Хот-бар

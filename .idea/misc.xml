@@ -4,35 +4,59 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/avd_anim.xml" value="0.2046875" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/avd_anim_connection.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/avd_anim_connection_reverse.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/avd_anim_reverse.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/gradient_lamp_color.xml" value="0.29635416666666664" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/gradient_lamp_new.xml" value="0.24375" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_abstract_layer_white.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_abstract_scene.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_add.xml" value="0.362962962962963" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_add_2.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_add_new.xml" value="0.2046875" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_addgroup.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_addlamp.xml" value="0.2046875" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_back.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.29739583333333336" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_change_this__color_.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_close.xml" value="0.25" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_close_new.xml" value="0.25" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_connect.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_connected.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_custom_sphere.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_expand_less.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_expand_more.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_group_shape.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_launcher_background.xml" value="0.362962962962963" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_plus.xml" value="0.2994791666666667" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_scenes.xml" value="0.29739583333333336" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_sphere_top_layer.xml" value="0.3728205128205128" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/ic_x.xml" value="0.2994791666666667" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/rounded_bt_addmesh.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/rounded_button.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/rounded_button_2.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/scenes_button.xml" value="0.3758974358974359" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/switch_thumb.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/drawable/switch_track.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout-v23/lamp_rv.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_components.xml" value="0.33" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_lamps.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_saved_scenes.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_scenes.xml" value="0.1796875" />
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/group_rv.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/lamp_rv.xml" value="0.5142857142857142" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_scenes.xml" value="0.359375" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/activity_settings.xml" value="0.33" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/group_rv.xml" value="0.67" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/lamp_rv.xml" value="0.5" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/saved_scene_rv.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/scene_rv.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/layout/scene_rv.xml" value="0.75" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_lamps.xml" value="0.19427083333333334" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_main.xml" value="0.38125" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_scene.xml" value="0.19427083333333334" />
         <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/menu/menu_scene_components.xml" value="0.203125" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/dimit/IdeaProjects/mesh_app_main/meshstick/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3769230769230769" />
       </map>
     </option>
   </component>

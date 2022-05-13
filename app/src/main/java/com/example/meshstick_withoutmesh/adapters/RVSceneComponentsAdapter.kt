@@ -3,13 +3,18 @@ package com.example.meshstick_withoutmesh.adapters
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +53,7 @@ class RVSceneComponentsAdapter(
         Paper.book().write("scenes", scenes)
     }
 
-    fun addLampInGroup(lampPosition: Int, groupPosition: Int) {
+    fun addLampToGroup(lampPosition: Int, groupPosition: Int) {
         if (!(scenes[num].sceneComponents[groupPosition] is Group
                     && scenes[num].sceneComponents[lampPosition] is Lamp)
         ) return
@@ -107,28 +112,23 @@ class RVSceneComponentsAdapter(
         Paper.book().write("scenes", scenes)
     }
 
-//    fun removeComponent(sceneComponent: SceneComponents) {
-//        scenes[num].sceneComponents.remove(sceneComponent)
-//        notifyDataSetChanged()
-//
-//        Paper.book().write("scenes", scenes)
-//    }
 
     //Объекты lamp_rv.xml
     class ViewHolderLamp(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tv_lampName)
-        val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
-        val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
+        val btSettings: ImageButton = itemView.findViewById(R.id.bt_settings)
+
+        //val currentColor: LinearLayout = itemView.findViewById(R.id.current_color)
         val lampObject: LinearLayout = itemView.findViewById(R.id.lamp_object)
     }
 
     //Объекты group_rv.xml
     class ViewHolderGroup(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tv_groupName)
-        val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_settings)
-        val currentColor: LinearLayout = itemView.findViewById(R.id.ll_color)
+        val btSettings: ImageButton = itemView.findViewById(R.id.bt_settings_group)
+        val btExpandMoreLess: ImageButton = itemView.findViewById(R.id.bt_expand)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
-        val addLampPosition: TextView = itemView.findViewById(R.id.tv_addLampPosition)
+        val tvAddLamp: TextView = itemView.findViewById(R.id.tv_addLampPosition)
         lateinit var adapter: RVLampsOfGroupAdapter
 
         private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
@@ -216,18 +216,13 @@ class RVSceneComponentsAdapter(
             val intent = Intent(activity, SettingsActivity::class.java)
 
             intent.putExtra("component", scenes[num].sceneComponents[position] as Lamp)
-            intent.putExtra("position_settings", position)
+            intent.putExtra("component_position", position)
+            intent.putExtra("scene_position", num)
 
             activity.lampsLauncher.launch(intent)
         }
         //Обновление цвета
-        holder.currentColor.setBackgroundColor(
-            Color.rgb(
-                lamp.red,
-                lamp.green,
-                lamp.blue
-            )
-        )
+        holder.btSettings.setImageDrawable(getGradientDrawable(Color.rgb(lamp.red, lamp.green, lamp.blue)))
     }
 
     private fun onBindViewHolderGroup(holder: ViewHolderGroup, position: Int) {
@@ -239,7 +234,14 @@ class RVSceneComponentsAdapter(
         holder.adapter = RVLampsOfGroupAdapter(activity, num, position, Color.rgb(group.red, group.green, group.blue))
         holder.rvLamps.adapter = holder.adapter
 
-        holder.currentColor.setOnClickListener {
+        holder.btExpandMoreLess.setOnClickListener {
+
+            if (group.expanded) {
+                holder.btExpandMoreLess.setBackgroundResource(R.drawable.ic_expand_less)
+            } else {
+                holder.btExpandMoreLess.setBackgroundResource(R.drawable.ic_expand_more)
+            }
+
             group.expanded = !group.expanded
             notifyItemChanged(position)
             Log.d("GROUP", "EXPANDED-${group.expanded}")
@@ -247,25 +249,24 @@ class RVSceneComponentsAdapter(
 
         val isExpandable = group.expanded
         holder.rvLamps.visibility = if (isExpandable) View.VISIBLE else View.GONE
-        holder.addLampPosition.visibility = if (isExpandable) View.VISIBLE else View.GONE
+        holder.tvAddLamp.visibility = if (isExpandable) View.VISIBLE else View.GONE
 
         //Переход в LampSettingsActivity
         holder.btSettings.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
 
             intent.putExtra("component", scenes[num].sceneComponents[position] as Group)
-            intent.putExtra("position_settings", position)
+            intent.putExtra("component_position", position)
+            intent.putExtra("scene_position", num)
 
             activity.lampsLauncher.launch(intent)
         }
         //Обновление цвета
-        holder.currentColor.setBackgroundColor(
-            Color.rgb(
-                group.red,
-                group.green,
-                group.blue
-            )
-        )
+        //holder.btSettings.setImageDrawable(getGradientDrawable(Color.rgb(group.red, group.green, group.blue)))
+        val drawableBt = ContextCompat.getDrawable(activity, R.drawable.ic_group_shape)
+        DrawableCompat.setTint(drawableBt!!, Color.rgb(group.red, group.green, group.blue))
+        holder.btSettings.setImageDrawable(drawableBt)
+
     }
 
     override fun getItemCount(): Int {
@@ -284,4 +285,16 @@ class RVSceneComponentsAdapter(
         return false
     }
 
+    private fun getGradientDrawable(
+        colorRight: Int,
+        colorLeft: Int = ContextCompat.getColor(activity, R.color.mainBlue)
+    ): GradientDrawable {
+        return GradientDrawable().apply {
+            colors = intArrayOf(colorLeft, colorRight)
+            gradientType = GradientDrawable.LINEAR_GRADIENT
+            shape = GradientDrawable.RECTANGLE
+            orientation = GradientDrawable.Orientation.LEFT_RIGHT
+
+        }
+    }
 }
