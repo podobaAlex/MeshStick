@@ -5,10 +5,10 @@ import android.os.Parcelable
 
 class GroupedLamp(override var name: String) : SceneComponents {
 
-    var id: String = "null"
+    var id: Long = 0
 
     constructor(parcel: Parcel) : this(parcel.readString()!!) {
-        id = parcel.readString()!!
+        id = parcel.readLong()
     }
 
     constructor(lamp: Lamp) : this(lamp.name) {
@@ -17,7 +17,7 @@ class GroupedLamp(override var name: String) : SceneComponents {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeString(id)
+        parcel.writeLong(id)
     }
 
     override fun describeContents(): Int {

@@ -18,5 +18,7 @@
     <string name="load">load</string>
     <string name="add_group">Add Group</string>
     <string name="add_lamp">Add Lamp</string>
-    <string name="groupname">groupName</string>
+    <string name="group_name">groupName</string>
+    <string name="mesh_name">meshName</string>
+
 </resources>

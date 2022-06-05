@@ -4,7 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Scene(private var name: String) : Parcelable {
+
     var sceneComponents = mutableListOf<SceneComponents>()
+    var isActive: Boolean = false
 
     constructor(parcel: Parcel) : this(parcel.readString()!!) {
         parcel.readParcelableList(sceneComponents, SceneComponents::class.java.classLoader)

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
 import com.example.meshstick_withoutmesh.fragments.MeshDialogFragment
 import com.example.meshstick_withoutmesh.fragments.SceneRenameDialogFragment
+import com.example.meshstick_withoutmesh.mesh.MeshHandler
 import com.example.meshstick_withoutmesh.types.Group
 import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.SwipeGesture
@@ -46,10 +47,23 @@ class SceneComponentsActivity : AppCompatActivity() {
                 1 -> {
                     val position: Int = result.data!!.getIntExtra("group_position", -1)
                     if (position == -1) {
+                        val componentPosition = result.data!!.getIntExtra("position_comeback", 0)
                         adapter.changeData(
                             result.data!!.getParcelableExtra("component")!!,
-                            result.data!!.getIntExtra("position_comeback", 0)
+                            componentPosition
                         )
+                        if (scenes[num].isActive) {
+                            if (scenes[num].sceneComponents[componentPosition] is Lamp) {
+                                MeshHandler.sendNodeMessage(
+                                    (scenes[num].sceneComponents[componentPosition] as Lamp).id,
+                                    "{" +
+                                            "red: ${(scenes[num].sceneComponents[componentPosition] as Lamp).red}" +
+                                            "green: ${(scenes[num].sceneComponents[componentPosition] as Lamp).green}" +
+                                            "blue: ${(scenes[num].sceneComponents[componentPosition] as Lamp).blue}" +
+                                            "}"
+                                )
+                            }
+                        }
                     } else {
                         adapter.updateLampInGroup(
                             result.data!!.getParcelableExtra("component")!!,

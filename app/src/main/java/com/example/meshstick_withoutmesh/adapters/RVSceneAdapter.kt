@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
         val textView: TextView = itemView.findViewById(R.id.tv_sceneName)
         val numOfLamps: TextView = itemView.findViewById(R.id.tv_numOfLampsNum)
         val btSettings: AppCompatImageButton = itemView.findViewById(R.id.bt_control)
+        val switchKey: Switch = itemView.findViewById(R.id.s_turnScene)
     }
 
     //Добавление сцены
@@ -63,6 +65,17 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
         holder.textView.text = scenes[position].getName()
         //Установка кол-ва ламп
         holder.numOfLamps.text = scenes[position].sceneComponents.size.toString()
+
+        holder.switchKey.isChecked = scenes[position].isActive
+
+        holder.switchKey.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                scenes.forEach { if (it.isActive) it.isActive = false }
+                scenes[position].isActive = true
+            } else {
+                scenes[position].isActive = false
+            }
+        }
 
         //Переход в LampsScene
         holder.btSettings.setOnClickListener {

@@ -10,9 +10,9 @@ class Lamp(
     override var blue: Int
 ) : SceneComponents, Colored {
 
-    var id: String = "null"
+    var id: Long = 0
 
-    constructor(id: String) : this("lamp", 0, 0, 0) {
+    constructor(id: Long) : this("lamp", 0, 0, 0) {
         this.id = id
     }
 
@@ -26,7 +26,7 @@ class Lamp(
         parcel.readInt(),
         parcel.readInt()
     ) {
-        id = parcel.readString()!!
+        id = parcel.readLong()
     }
 
     override fun describeContents(): Int {
@@ -38,7 +38,7 @@ class Lamp(
         parcel.writeInt(red)
         parcel.writeInt(green)
         parcel.writeInt(blue)
-        parcel.writeString(id)
+        parcel.writeLong(id)
     }
 
     companion object CREATOR : Parcelable.Creator<Lamp> {

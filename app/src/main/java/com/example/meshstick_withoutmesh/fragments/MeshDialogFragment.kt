@@ -12,7 +12,7 @@ class MeshDialogFragment(private val num: Int) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val meshes: Array<String> = connectedMeshes.map { it -> it.name }.toTypedArray()
+        val meshes: Array<String> = connectedMeshes.filter { it.isConnected }.map { it.name }.toTypedArray()
 
         return when (meshes.size) {
             0 -> activity?.let {

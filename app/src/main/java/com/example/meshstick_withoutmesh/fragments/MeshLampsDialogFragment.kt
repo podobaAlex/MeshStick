@@ -33,13 +33,16 @@ class MeshLampsDialogFragment(private val meshPosition: Int, private val num: In
                 builder.create()
             } ?: throw IllegalStateException("Activity cannot be null")
             //Диалоговое окно, когда лампы есть
-            else -> activity?.let {
+            else -> activity?.let { it ->
                 val builder = AlertDialog.Builder(it)
                 builder.setTitle("Выберите лампы")
-                    .setMultiChoiceItems(remainingLamps, checkedLamps) { dialog, which, isChecked ->
+                    .setMultiChoiceItems(
+                        remainingLamps.map { x -> "$x" }.toTypedArray(),
+                        checkedLamps
+                    ) { dialog, which, isChecked ->
                         checkedLamps[which] = isChecked
                         val name = remainingLamps[which] // Get the clicked item
-                        Toast.makeText(activity, name, Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "$name", Toast.LENGTH_LONG).show()
                     }
                     .setPositiveButton("Готово") { dialog, id ->
                         // User clicked OK, so save the selectedItems results somewhere
