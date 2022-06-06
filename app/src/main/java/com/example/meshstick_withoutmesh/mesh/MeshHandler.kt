@@ -29,12 +29,6 @@ class MeshHandler : MainActivity() {
         /** Debug tag  */
         private const val DBG_TAG = "MeshHandler"
 
-        // List of currently known nodes
-        var nodesList: ArrayList<Long>? = null
-
-        /** Action for onActivityResult selecting update file  */
-        const val SELECT_FILE_REQ = 1
-
         /** Path to OTA file as String  */
         var otaPath: String? = null
 
@@ -314,18 +308,14 @@ class MeshHandler : MainActivity() {
         fun generateNodeList(routingInfo: String?) {
             try {
                 // Creat list if necessary
-                if (nodesList == null) {
-                    nodesList = ArrayList()
-                }
-                val oldNodesList = ArrayList(nodesList!!)
-                oldNodesList.sort()
-                nodesList!!.clear()
+                val oldNodesList = ArrayList(connectedMeshes[currentMeshNumber!!].lamps)
+                oldNodesList.sortBy { it.id }
+                connectedMeshes[currentMeshNumber!!].lamps.clear()
                 // Start parsing the node list JSON
                 try {
                     val routingTop = JSONObject(routingInfo)
                     val from = routingTop.getLong("from")
                     Log.d(DBG_TAG, "$from")
-                    nodesList!!.add(from)
                     if (currentMeshNumber != null) {
                         if (!connectedMeshes[currentMeshNumber!!].lamps.map { it.id }.any { it == from }) {
                             connectedMeshes[currentMeshNumber!!].lamps.add(Lamp(from))
@@ -335,14 +325,14 @@ class MeshHandler : MainActivity() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
-                Log.d(DBG_TAG, "New nodes list: " + nodesList)
-                Collections.sort(nodesList)
-                val oldEqualNew = oldNodesList.containsAll(nodesList!!)
-                val newEqualOld = nodesList!!.containsAll(oldNodesList)
+                Log.d(DBG_TAG, "New nodes list: " + connectedMeshes)
+                connectedMeshes[currentMeshNumber!!].lamps.sortBy { it.id }
+                val oldEqualNew = oldNodesList.containsAll(connectedMeshes[currentMeshNumber!!].lamps)
+                val newEqualOld = connectedMeshes[currentMeshNumber!!].lamps.containsAll(oldNodesList)
                 if (!oldEqualNew || !newEqualOld) {
                     val nodesListStr = StringBuilder("Nodeslist changed\n")
-                    for (idx in nodesList!!.indices) {
-                        nodesListStr.append(nodesList!![idx]).append("\n")
+                    for (idx in connectedMeshes[currentMeshNumber!!].lamps.indices) {
+                        nodesListStr.append(connectedMeshes[currentMeshNumber!!].lamps[idx]).append("\n")
                     }
                     sendMyBroadcast(MeshCommunicator.MESH_NODES, nodesListStr.toString())
                 }
@@ -368,7 +358,6 @@ class MeshHandler : MainActivity() {
                     do {
                         foundNode = hasSubsNodeId(subs, idx)
                         if (foundNode != 0L) {
-                            nodesList!!.add(foundNode)
                             if (!connectedMeshes[currentMeshNumber!!].lamps.map { it.id }.any { it == foundNode }) {
                                 connectedMeshes[currentMeshNumber!!].lamps.add(Lamp(foundNode))
                             }

@@ -569,7 +569,6 @@ open class MainActivity : AppCompatActivity() {
                                 }
                             }
                             oldText = """BC from $fromNode ${rcvdJSON.getString("msg")}"""
-//                            tv_mesh_msgs?.append(oldText)
                         }
                         9 -> {
                             dataSet += """
@@ -585,12 +584,10 @@ open class MainActivity : AppCompatActivity() {
                                 if (dataType != null) {
                                     if (dataType.equals("version", ignoreCase = true)) {
                                         // We received a OTA advertisment!
-//                                        tv_mesh_err?.text = getString(R.string.mesh_event_ota_adv)
                                         return
                                     } else if (dataType.equals("request", ignoreCase = true)) {
                                         // We received a OTA block request
                                         MeshHandler.sendOtaBlock(fromNode, rcvdData.getLong("partNo"))
-//                                        tv_mesh_err?.text = getString(R.string.mesh_event_ota_req)
                                     }
                                 }
                             }
@@ -600,7 +597,6 @@ open class MainActivity : AppCompatActivity() {
                                 }
                             }
                             oldText = """SM from $fromNode${rcvdJSON.getString("msg")}"""
-//                            tv_mesh_msgs?.append(oldText)
                         }
                     }
                 } catch (e: JSONException) {
@@ -609,11 +605,10 @@ open class MainActivity : AppCompatActivity() {
                         E: ${intent.getStringExtra("msg")}
                         
                         """.trimIndent()
-//                    tv_mesh_msgs?.append(oldText)
                     dataSet += """
                         ERROR INVALID DATA:
                         ${intent.getStringExtra("msg")}
-                        
+                  
                         """.trimIndent()
                 }
                 if (out != null) {
@@ -623,16 +618,15 @@ open class MainActivity : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
-//                scrollViewDown()
             } else if (MeshCommunicator.MESH_SOCKET_ERR == intentAction) {
-                if (MeshHandler.nodesList != null) {
-                    MeshHandler.nodesList!!.clear()
+                if (connectedMeshes.isNotEmpty()) {
+                    if (connectedMeshes[currentMeshNumber!!].lamps.isNotEmpty()) {
+                        connectedMeshes[currentMeshNumber!!].lamps.clear()
+                    }
                 }
                 if (!userDisConRequest) {
                     try {
-//                        showToast(getString(R.string.mesh_lost_connection), Toast.LENGTH_LONG)
                         MeshCommunicator.Connect(meshIP!!, meshPort, applicationContext) // added !!
-//                        tv_mesh_err?.text = intent.getStringExtra("msg")
                     } catch (e: NullPointerException) {
                         Log.e(DBG_TAG, "meshIP is null in fun onRecieve")
                     }
@@ -640,12 +634,6 @@ open class MainActivity : AppCompatActivity() {
             } else if (MeshCommunicator.MESH_CONNECTED == intentAction) {
                 userDisConRequest = false
             } else if (MeshCommunicator.MESH_NODES == intentAction) {
-                val oldText = """
-                    ${intent.getStringExtra("msg")}
-                    
-                    """.trimIndent()
-//                tv_mesh_msgs?.append(oldText)
-//                scrollViewDown()
                 dataSet += """
                     ${intent.getStringExtra("msg")}
                     
@@ -658,17 +646,6 @@ open class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-//            var oldText = tv_mesh_msgs?.text.toString()
-//            // Check if the text is getting too long
-//            if (oldText.length > 16535) {
-//                // Quite long, remove the first 20 lines  from the text
-//                var indexOfCr = 0
-//                for (lines in 0..19) {
-//                    indexOfCr = oldText.indexOf("\n", indexOfCr + 1)
-//                }
-//                oldText = oldText.substring(indexOfCr + 1)
-//                tv_mesh_msgs?.text = oldText
-//            }
         }
     }
 
