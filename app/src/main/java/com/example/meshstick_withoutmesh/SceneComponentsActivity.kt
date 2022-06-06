@@ -57,11 +57,23 @@ class SceneComponentsActivity : AppCompatActivity() {
                                 MeshHandler.sendNodeMessage(
                                     (scenes[num].sceneComponents[componentPosition] as Lamp).id,
                                     "{" +
-                                            "red: ${(scenes[num].sceneComponents[componentPosition] as Lamp).red}" +
-                                            "green: ${(scenes[num].sceneComponents[componentPosition] as Lamp).green}" +
-                                            "blue: ${(scenes[num].sceneComponents[componentPosition] as Lamp).blue}" +
+                                            "\"red\":${(scenes[num].sceneComponents[componentPosition] as Lamp).red}," +
+                                            "\"green\":${(scenes[num].sceneComponents[componentPosition] as Lamp).green}," +
+                                            "\"blue\":${(scenes[num].sceneComponents[componentPosition] as Lamp).blue}" +
                                             "}"
                                 )
+                            }
+                            if (scenes[num].sceneComponents[componentPosition] is Group) {
+                                (scenes[num].sceneComponents[componentPosition] as Group).lamps.forEach {
+                                    MeshHandler.sendNodeMessage(
+                                        it.id,
+                                        "{" +
+                                                "\"red\":${(scenes[num].sceneComponents[componentPosition] as Group).red}," +
+                                                "\"green\":${(scenes[num].sceneComponents[componentPosition] as Group).green}," +
+                                                "\"blue\":${(scenes[num].sceneComponents[componentPosition] as Group).blue}" +
+                                                "}"
+                                    )
+                                }
                             }
                         }
                     } else {

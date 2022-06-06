@@ -1,6 +1,7 @@
 package com.example.meshstick_withoutmesh.adapters
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class RVConnectedMeshesAdapter(private val activity: MainActivity) :
         holder.rvLamps.adapter = holder.adapter
 
         holder.textView.setOnClickListener {
+            Log.d("MainActivity", connectedMeshes[position].MAC)
             val meshPasswordDialogFragment = MeshPasswordDialogFragment(position, activity)
             val manager: FragmentManager = activity.supportFragmentManager
             val transaction: FragmentTransaction = manager.beginTransaction()

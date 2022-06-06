@@ -298,7 +298,7 @@ open class MainActivity : AppCompatActivity() {
 
         Log.d("WI-FI", "size: ${scanResults.size}")
 
-        connectedMeshes = scanResults.map { it -> Mesh(it!!.SSID) }.toMutableList()
+        connectedMeshes = scanResults.map { it -> Mesh(it!!) }.toMutableList()
         adapter.notifyDataSetChanged()
     }
 

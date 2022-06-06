@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.SettingsActivity
+import com.example.meshstick_withoutmesh.mesh.MeshHandler
 import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 import io.paperdb.Paper
@@ -56,6 +57,16 @@ class RVSceneComponentsAdapter(
         if (!(scenes[num].sceneComponents[groupPosition] as Group).expanded) return
 
         val lamp = scenes[num].sceneComponents[lampPosition] as Lamp
+
+        MeshHandler.sendNodeMessage(
+            lamp.id,
+            "{" +
+                    "\"red\":${(scenes[num].sceneComponents[groupPosition] as Group).red}," +
+                    "\"green\":${(scenes[num].sceneComponents[groupPosition] as Group).green}," +
+                    "\"blue\":${(scenes[num].sceneComponents[groupPosition] as Group).blue}" +
+                    "}"
+        )
+
         (scenes[num].sceneComponents[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
         scenes[num].sceneComponents.removeAt(lampPosition)
         notifyDataSetChanged()
@@ -68,12 +79,30 @@ class RVSceneComponentsAdapter(
         scenes[num].sceneComponents.add(lamp)
         notifyDataSetChanged()
 
+        MeshHandler.sendNodeMessage(
+            lamp.id,
+            "{" +
+                    "\"red\":${lamp.red}," +
+                    "\"green\":${lamp.green}," +
+                    "\"blue\":${lamp.blue}" +
+                    "}"
+        )
+
         Paper.book().write("scenes", scenes)
     }
 
     fun addLamp(position: Int, lamp: Lamp) {
         scenes[num].sceneComponents.add(position, lamp)
         notifyDataSetChanged()
+
+        MeshHandler.sendNodeMessage(
+            lamp.id,
+            "{" +
+                    "\"red\":${lamp.red}," +
+                    "\"green\":${lamp.green}," +
+                    "\"blue\":${lamp.blue}" +
+                    "}"
+        )
 
         Paper.book().write("scenes", scenes)
     }
