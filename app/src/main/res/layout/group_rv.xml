@@ -58,7 +58,7 @@
                 <TextView
                         android:text="9 pcs."
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/textView4"
+                        android:layout_height="wrap_content" android:id="@+id/tv_numOfLampsInGroup"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/bt_expand" android:layout_marginStart="4dp"
                         android:fontFamily="@font/inter" android:textSize="13sp" android:textColor="@color/mainWhite"

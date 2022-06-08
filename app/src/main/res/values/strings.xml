@@ -21,5 +21,6 @@
     <string name="add_lamp">Add Lamp</string>
     <string name="group_name">groupName</string>
     <string name="mesh_name">meshName</string>
+    <string name="active">Active</string>
 
 </resources>

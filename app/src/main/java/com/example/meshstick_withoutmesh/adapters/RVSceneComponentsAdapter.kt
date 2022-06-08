@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,11 +60,12 @@ class RVSceneComponentsAdapter(
 
         val lamp = scenes[num].sceneComponents[lampPosition] as Lamp
 
-        lamp.sendToMesh()
-
         (scenes[num].sceneComponents[groupPosition] as Group).lamps.add(GroupedLamp(lamp))
+
         scenes[num].sceneComponents.removeAt(lampPosition)
+
         notifyDataSetChanged()
+        (scenes[num].sceneComponents[groupPosition] as Group).sendToMesh()
 
         Paper.book().write("scenes", scenes)
     }
@@ -136,6 +135,7 @@ class RVSceneComponentsAdapter(
         val btExpandMoreLess: ImageButton = itemView.findViewById(R.id.bt_expand)
         val rvLamps: RecyclerView = itemView.findViewById(R.id.rv_lampsOfGroup)
         val tvAddLamp: TextView = itemView.findViewById(R.id.tv_addLampPosition)
+        val numOfLamps: TextView = itemView.findViewById(R.id.tv_numOfLampsInGroup)
         lateinit var adapter: RVLampsOfGroupAdapter
 
         private val simpleCallback = object : ItemTouchHelper.SimpleCallback(
@@ -240,6 +240,7 @@ class RVSceneComponentsAdapter(
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
         holder.adapter = RVLampsOfGroupAdapter(activity, num, position, Color.rgb(group.red, group.green, group.blue))
         holder.rvLamps.adapter = holder.adapter
+        holder.numOfLamps.text = (scenes[num].sceneComponents[position] as Group).lamps.size.toString()
 
         holder.btExpandMoreLess.setOnClickListener {
 

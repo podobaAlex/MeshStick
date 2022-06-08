@@ -4,12 +4,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import android.widget.ImageButton
+import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
+import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.Scene
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
@@ -24,6 +26,7 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
         val numOfLamps: TextView = itemView.findViewById(R.id.tv_num_of_lamps)
         val btSettings: ImageButton = itemView.findViewById(R.id.bt_control)
         val switchKey: Switch = itemView.findViewById(R.id.s_turnScene)
+        val numOfGroups: TextView = itemView.findViewById(R.id.tv_num_of_groups)
     }
 
     //Добавление сцены
@@ -64,13 +67,17 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
         //Установка имени сцены
         holder.textView.text = scenes[position].getName()
         //Установка кол-ва ламп
-        holder.numOfLamps.text = scenes[position].sceneComponents.size.toString()
+        holder.numOfLamps.text = scenes[position].sceneComponents.filterIsInstance<Lamp>().size.toString()
+        holder.numOfGroups.text = scenes[position].sceneComponents.filterIsInstance<Group>().size.toString()
 
         holder.switchKey.isChecked = scenes[position].isActive
 
         holder.switchKey.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                scenes.forEach { if (it.isActive) it.isActive = false }
+                if (scenes.size != 1) {
+                    scenes.forEach { if (it.isActive) it.isActive = false }
+                    notifyDataSetChanged()
+                }
                 scenes[position].isActive = true
             } else {
                 scenes[position].isActive = false

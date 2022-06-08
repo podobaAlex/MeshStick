@@ -24,7 +24,7 @@
                     android:id="@+id/tv_lampName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="22sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/mainWhite"
@@ -40,16 +40,6 @@
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
                     tools:ignore="TouchTargetSizeCheck"
                     app:layout_constraintVertical_bias="0.0"/>
-            <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/switchOnOff"
-                    android:trackTint="@drawable/switch_track"
-                    android:thumbTint="@drawable/switch_thumb"
-                    app:layout_constraintEnd_toEndOf="@+id/bt_settings" android:layout_marginEnd="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
-                    android:switchMinWidth="48dp" android:height="48dp"
-                    android:elevation="30dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

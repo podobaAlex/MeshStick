@@ -2,14 +2,12 @@ package com.example.meshstick_withoutmesh.adapters
 
 import android.graphics.Color
 import android.util.Log
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +45,7 @@ class RVConnectedMeshesAdapter(private val activity: MainActivity) :
             holder.currentColor.setBackgroundColor(Color.rgb(255, 0, 0))
         }
         holder.rvLamps.layoutManager = LinearLayoutManager(activity)
-        holder.adapter = RVLampsOfMeshAdapter(position)
+        holder.adapter = RVLampsOfMeshAdapter(activity, position)
         holder.rvLamps.adapter = holder.adapter
 
         holder.textView.setOnClickListener {
