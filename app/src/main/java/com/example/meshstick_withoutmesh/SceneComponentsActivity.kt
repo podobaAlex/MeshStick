@@ -24,11 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
 import com.example.meshstick_withoutmesh.fragments.MeshDialogFragment
 import com.example.meshstick_withoutmesh.fragments.SceneRenameDialogFragment
-import com.example.meshstick_withoutmesh.mesh.MeshHandler
-import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.SwipeGesture
-import com.example.meshstick_withoutmesh.types.scenes
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 import com.google.android.material.snackbar.Snackbar
 
@@ -53,27 +49,8 @@ class SceneComponentsActivity : AppCompatActivity() {
                             componentPosition
                         )
                         if (scenes[num].isActive) {
-                            if (scenes[num].sceneComponents[componentPosition] is Lamp) {
-                                MeshHandler.sendNodeMessage(
-                                    (scenes[num].sceneComponents[componentPosition] as Lamp).id,
-                                    "{" +
-                                            "\"red\":${(scenes[num].sceneComponents[componentPosition] as Lamp).red}," +
-                                            "\"green\":${(scenes[num].sceneComponents[componentPosition] as Lamp).green}," +
-                                            "\"blue\":${(scenes[num].sceneComponents[componentPosition] as Lamp).blue}" +
-                                            "}"
-                                )
-                            }
-                            if (scenes[num].sceneComponents[componentPosition] is Group) {
-                                (scenes[num].sceneComponents[componentPosition] as Group).lamps.forEach {
-                                    MeshHandler.sendNodeMessage(
-                                        it.id,
-                                        "{" +
-                                                "\"red\":${(scenes[num].sceneComponents[componentPosition] as Group).red}," +
-                                                "\"green\":${(scenes[num].sceneComponents[componentPosition] as Group).green}," +
-                                                "\"blue\":${(scenes[num].sceneComponents[componentPosition] as Group).blue}" +
-                                                "}"
-                                    )
-                                }
+                            if (scenes[num].sceneComponents[componentPosition] is Colored) {
+                                (scenes[num].sceneComponents[componentPosition] as Colored).sendToMesh()
                             }
                         }
                     } else {

@@ -2,13 +2,14 @@ package com.example.meshstick_withoutmesh.types
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.meshstick_withoutmesh.mesh.MeshHandler
 
 class Lamp(
     override var name: String,
     override var red: Int,
     override var green: Int,
     override var blue: Int
-) : SceneComponents, Colored {
+) : Colored {
 
     var id: Long = 0
 
@@ -27,6 +28,17 @@ class Lamp(
         parcel.readInt()
     ) {
         id = parcel.readLong()
+    }
+
+    override fun sendToMesh() {
+        MeshHandler.sendNodeMessage(
+            this.id,
+            "{" +
+                    "\"red\":${this.red}," +
+                    "\"green\":${this.green}," +
+                    "\"blue\":${this.blue}" +
+                    "}"
+        )
     }
 
     override fun describeContents(): Int {

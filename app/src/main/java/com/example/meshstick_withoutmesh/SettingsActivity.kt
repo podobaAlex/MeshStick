@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.SceneComponents
-import com.example.meshstick_withoutmesh.types.scenes
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 
 class SettingsActivity : AppCompatActivity() {
@@ -43,13 +40,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val sceneComponent = this.intent.getParcelableExtra<SceneComponents>("component")!!
         lampName.setText(sceneComponent.name)
-        if (sceneComponent is Lamp) {
-            sbRed.progress = sceneComponent.red
-            sbGreen.progress = sceneComponent.green
-            sbBlue.progress = sceneComponent.blue
-        }
-
-        if (sceneComponent is Group) {
+        if (sceneComponent is Colored) {
             sbRed.progress = sceneComponent.red
             sbGreen.progress = sceneComponent.green
             sbBlue.progress = sceneComponent.blue
