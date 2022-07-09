@@ -8,7 +8,10 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
@@ -128,35 +131,6 @@ class SettingsActivity : AppCompatActivity() {
             }
 
         })
-
-//        //Сохранение изменений
-//        findViewById<Button>(R.id.bt_save).setOnClickListener {
-//            val intent = Intent()
-//
-//            sceneComponent.name = lampName.text.toString()
-//            if (sceneComponent is Lamp) {
-//                sceneComponent.red = red
-//                sceneComponent.green = green
-//                sceneComponent.blue = blue
-//            }
-//
-//            if (sceneComponent is Group) {
-//                sceneComponent.red = red
-//                sceneComponent.green = green
-//                sceneComponent.blue = blue
-//            }
-//
-//            intent.putExtra("component", sceneComponent)
-//            intent.putExtra("position_comeback", this.intent.getIntExtra("position_settings", 1))
-//
-//            if (groupPosition != -1) {
-//                intent.putExtra("group_position", groupPosition)
-//            }
-//
-//            setResult(1, intent)
-//            finish()
-//        }
-
 
     }
 

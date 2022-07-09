@@ -8,8 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.content.pm.PackageManager
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
 import android.net.DhcpInfo
@@ -24,9 +24,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import androidx.annotation.RequiresApi
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -40,7 +40,6 @@ import com.example.meshstick_withoutmesh.types.connectedMeshes
 import com.example.meshstick_withoutmesh.types.scanResults
 import com.example.meshstick_withoutmesh.types.wifiManager
 import com.example.myapplication.BuildConfig
-import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 import io.paperdb.Paper
 import org.joda.time.DateTime
@@ -109,6 +108,9 @@ open class MainActivity : AppCompatActivity() {
     private val DEFAULT_PORT = "5555"
 
     override fun onResume() {
+
+        connectToWifi()
+
         // Register Mesh events
 
         meshPort = Integer.valueOf(DEFAULT_PORT)

@@ -10,7 +10,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
-import com.example.meshstick_withoutmesh.types.*
+import com.example.meshstick_withoutmesh.types.Group
+import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.Scene
+import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 import io.paperdb.Paper
 
@@ -76,7 +79,6 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
                     notifyDataSetChanged()
                 }
                 scenes[position].isActive = true
-                scenes[position].sceneComponents.filterIsInstance<Colored>().forEach { it.sendToMesh() }
             } else {
                 scenes[position].isActive = false
             }
