@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.meshstick_withoutmesh.types.Colored
 import com.example.meshstick_withoutmesh.types.Group
@@ -36,6 +38,7 @@ class SettingsActivity : AppCompatActivity() {
         val sbBlue: SeekBar = findViewById(R.id.sb_blue)
         val colorLayout: LinearLayout = findViewById(R.id.ll_showColor)
         val btSave: Button = findViewById(R.id.bt_save)
+        val image: ImageView = findViewById(R.id.iv_color)
 
         val groupPosition = this.intent.getIntExtra("group_position", -1)
         val scenePosition = this.intent.getIntExtra("scene_position", -1)
@@ -44,7 +47,9 @@ class SettingsActivity : AppCompatActivity() {
             sbRed.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).red
             sbGreen.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).green
             sbBlue.progress = (scenes[scenePosition].sceneComponents[groupPosition] as Group).blue
-            colorLayout.setBackgroundColor(Color.rgb(sbRed.progress, sbGreen.progress, sbBlue.progress))
+            val drawablePic = ContextCompat.getDrawable(this, R.drawable.ic_sphere_top_layer)
+            DrawableCompat.setTint(drawablePic!!, Color.rgb(sbRed.progress, sbGreen.progress, sbBlue.progress))
+            image.setImageDrawable(drawablePic)
             sbRed.visibility = View.GONE
             sbGreen.visibility = View.GONE
             sbBlue.visibility = View.GONE
@@ -59,12 +64,18 @@ class SettingsActivity : AppCompatActivity() {
             sbRed.progress = sceneComponent.red
             sbGreen.progress = sceneComponent.green
             sbBlue.progress = sceneComponent.blue
-            colorLayout.setBackgroundColor(Color.rgb(sbRed.progress, sbGreen.progress, sbBlue.progress))
+            val drawablePic = ContextCompat.getDrawable(this, R.drawable.ic_sphere_top_layer)
+            DrawableCompat.setTint(drawablePic!!, Color.rgb(sbRed.progress, sbGreen.progress, sbBlue.progress))
+            image.setImageDrawable(drawablePic)
             vm = ViewModelProvider(
                 this,
                 SettingVMFactory(sbRed.progress, sbGreen.progress, sbBlue.progress)
             )[SettingsVM::class.java]
-            vm.result.observe(this) { color -> colorLayout.setBackgroundColor(color) }
+            vm.result.observe(this) { color ->
+                val drawablePic = ContextCompat.getDrawable(this, R.drawable.ic_sphere_top_layer)
+                DrawableCompat.setTint(drawablePic!!, color)
+                image.setImageDrawable(drawablePic)
+            }
         }
         //Обработка взаимодействия с seekBar Red
         sbRed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

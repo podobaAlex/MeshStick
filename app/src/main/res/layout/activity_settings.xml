@@ -40,12 +40,17 @@
 
             <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
+                    android:layout_width="283dp"
+                    android:layout_height="271dp"
                     android:id="@+id/ll_showColor"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" app:srcCompat="@drawable/ic_sphere_top_layer"
+                        android:id="@+id/iv_color" android:layout_weight="1"/>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
                 android:orientation="vertical"
