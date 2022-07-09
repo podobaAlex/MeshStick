@@ -11,15 +11,13 @@
     <string name="red">Red</string>
     <string name="green">Green</string>
     <string name="blue">Blue</string>
-    <string name="name">Name</string>
-    <string name="lamp_name">Lamp name</string>
+    <string name="component_name">Name</string>
     <string name="lamps">Lamps:</string>
     <string name="groups">Groups:</string>
     <string name="saved_scene">SavedScene</string>
     <string name="load">load</string>
     <string name="add_group">Add Group</string>
     <string name="add_lamp">Add Lamp</string>
-    <string name="group_name">groupName</string>
     <string name="mesh_name">meshName</string>
     <string name="active">Active</string>
 
