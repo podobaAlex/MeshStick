@@ -15,10 +15,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,14 +26,23 @@ import com.example.meshstick_withoutmesh.adapters.RVSceneComponentsAdapter
 import com.example.meshstick_withoutmesh.fragments.MeshDialogFragment
 import com.example.meshstick_withoutmesh.fragments.SceneRenameDialogFragment
 import com.example.meshstick_withoutmesh.types.*
+import com.example.meshstick_withoutmesh.viewmodels.SceneComponentsVM
 import com.example.myapplication.R
 import com.google.android.material.snackbar.Snackbar
+import io.paperdb.Paper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SceneComponentsActivity : AppCompatActivity() {
 
     lateinit var adapter: RVSceneComponentsAdapter
-    private var num: Int = 0
+    lateinit var vm: SceneComponentsVM
 
+    private val DBG_TAG = "SceneComponentsActivity"
+
+    private var num: Int = 0
 
     //Обработка результатов с других activity
     val lampsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -82,6 +91,22 @@ class SceneComponentsActivity : AppCompatActivity() {
 
         //восстанавливаем информацию из хранилища
         fetchSceneComponents()
+
+        vm = ViewModelProvider(this)[SceneComponentsVM::class.java]
+        vm.result.observe(this) { changed ->
+            Log.d(DBG_TAG, "changed")
+            if (scenes[num].isActive) {
+                Log.d(DBG_TAG, "active")
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(5000)
+                    if (changedLamps.isNotEmpty()) {
+                        Log.d("Change", "${changedLamps.peek()}")
+                        adapter.notifyItemChanged(changedLamps.pop())
+                        Paper.book().write("scenes", scenes)
+                    }
+                }
+            }
+        }
 
         // кнопка "назад" в action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

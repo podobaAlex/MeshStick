@@ -3,6 +3,10 @@ package com.example.meshstick_withoutmesh.mesh
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.meshstick_withoutmesh.types.Lamp
+import com.example.meshstick_withoutmesh.types.activeScene
+import com.example.meshstick_withoutmesh.types.changedLamps
+import com.example.meshstick_withoutmesh.types.scenes
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -195,6 +199,27 @@ internal object MeshCommunicator {
                         rcvdMsg = rcvdMsg.substring(0, realLen + 1)
                         Log.i(DBG_TAG, "Received $readLen bytes: $rcvdMsg")
                         Log.i(DBG_TAG, "Data received!")
+
+                        if (rcvdMsg.contains("changes:")) {
+                            val colorData = rcvdMsg.substring(rcvdMsg.lastIndexOf("changes") + 9, realLen - 1)
+                            Log.d("color", colorData)
+                            val rgbArray = colorData.split(' ').map { it.toInt() }.toTypedArray()
+                            if (activeScene != -1) {
+                                val start = rcvdMsg.lastIndexOf("from") + 6
+                                val id = rcvdMsg.substring(start, rcvdMsg.lastIndexOf(",")).toLong()
+                                val position = scenes[activeScene].sceneComponents.indexOfFirst {
+                                    if (it is Lamp) it.id == id else false
+                                }
+
+                                if (position != -1) {
+                                    (scenes[activeScene].sceneComponents[position] as Lamp).red = rgbArray[0]
+                                    (scenes[activeScene].sceneComponents[position] as Lamp).green = rgbArray[1]
+                                    (scenes[activeScene].sceneComponents[position] as Lamp).blue = rgbArray[2]
+                                    changedLamps.push(position)
+                                }
+                            }
+                        }
+
                         sendMyBroadcast(MESH_DATA_RECVD, rcvdMsg)
                     }
                 } catch (e: IOException) {

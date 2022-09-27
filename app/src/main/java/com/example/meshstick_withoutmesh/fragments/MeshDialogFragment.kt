@@ -26,7 +26,7 @@ class MeshDialogFragment(private val num: Int) : DialogFragment() {
                 val builder = AlertDialog.Builder(it)
 
                 builder.setTitle("Выберите сеть").setItems(meshes) { dialog, which ->
-                    val addLampDialog = MeshLampsDialogFragment(which, num)
+                    val addLampDialog = MeshLampsDialogFragment(meshes[which], num)
                     val manager: FragmentManager = activity!!.supportFragmentManager
                     val transaction: FragmentTransaction = manager.beginTransaction()
                     addLampDialog.show(transaction, "dialog")

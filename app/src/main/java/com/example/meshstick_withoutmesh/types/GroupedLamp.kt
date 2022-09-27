@@ -3,7 +3,7 @@ package com.example.meshstick_withoutmesh.types
 import android.os.Parcel
 import android.os.Parcelable
 
-class GroupedLamp(override var name: String) : SceneComponents {
+class GroupedLamp(override var name: String) : SceneComponent {
 
     var id: Long = 0
 

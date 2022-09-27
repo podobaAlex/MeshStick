@@ -10,10 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.SceneComponentsActivity
 import com.example.meshstick_withoutmesh.ScenesActivity
-import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.Lamp
-import com.example.meshstick_withoutmesh.types.Scene
-import com.example.meshstick_withoutmesh.types.scenes
+import com.example.meshstick_withoutmesh.types.*
 import com.example.myapplication.R
 import io.paperdb.Paper
 
@@ -74,13 +71,15 @@ class RVSceneAdapter(private val activity: ScenesActivity) :
 
         holder.switchKey.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if (scenes.size != 1) {
+                if (scenes.size != 1 && activeScene != -1) {
                     scenes.forEach { if (it.isActive) it.isActive = false }
-                    notifyDataSetChanged()
                 }
+                activeScene = position
                 scenes[position].isActive = true
+                notifyDataSetChanged()
             } else {
                 scenes[position].isActive = false
+                activeScene = -1
             }
         }
 

@@ -61,7 +61,8 @@ open class MainActivity : AppCompatActivity() {
     private var filterId: Long = 0
     private var logFilePath: String? = null
 
-    lateinit var nameCurrentMesh: String
+    var nameCurrentMesh: String = ""
+    var currentMeshPW: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,8 +110,14 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
 
-        connectToWifi()
-
+        if (isScanned) {
+            connectToWifi()
+            if (isConnected && nameCurrentMesh != "" && currentMeshPW != "") {
+                stopConnection()
+                startConnectionRequest(nameCurrentMesh, currentMeshPW)
+            }
+            adapter.notifyDataSetChanged()
+        }
         // Register Mesh events
 
         meshPort = Integer.valueOf(DEFAULT_PORT)
@@ -136,8 +143,8 @@ open class MainActivity : AppCompatActivity() {
         val btAddMesh: LinearLayout  = findViewById(R.id.bt_add_mesh)
         val btAddMeshImage: ImageView  = findViewById(R.id.bt_add_mesh_image)
         btAddMesh.setOnClickListener {
-            isConnected = !isConnected
-            if (isConnected) {
+            isScanned = !isScanned
+            if (isScanned) {
                 animateButton(btAddMeshImage)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(
@@ -158,6 +165,7 @@ open class MainActivity : AppCompatActivity() {
             } else {
                 val reverse = true
                 animateButton(btAddMeshImage, reverse)
+                stopConnection()
                 connectedMeshes.clear()
                 adapter.notifyDataSetChanged()
             }
@@ -245,6 +253,7 @@ open class MainActivity : AppCompatActivity() {
         oldAPName = ""
         nameCurrentMesh = connectedMeshes[num].name
         currentMeshNumber = num
+        currentMeshPW = meshPW
         // Get current WiFi connection
         try {
             val connManager = this.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -434,6 +443,10 @@ open class MainActivity : AppCompatActivity() {
         stopLogging()
         // unregister the broadcast receiver
         unregisterReceiver(localBroadcastReceiver)
+    }
+
+    private fun startConnectionRequest(meshName: String, meshPassword: String) {
+        startConnectionRequest(scanResults.indexOfFirst { it!!.SSID == meshName }, meshPassword)
     }
 
     private fun stopLogging() {

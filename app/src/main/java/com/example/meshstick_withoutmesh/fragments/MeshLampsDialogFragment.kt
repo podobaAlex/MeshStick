@@ -12,7 +12,7 @@ import com.example.meshstick_withoutmesh.types.Lamp
 import com.example.meshstick_withoutmesh.types.connectedMeshes
 import com.example.meshstick_withoutmesh.types.scenes
 
-class MeshLampsDialogFragment(private val meshPosition: Int, private val num: Int) : DialogFragment() {
+class MeshLampsDialogFragment(private val meshName: String, private val num: Int) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val currentLamps = mutableListOf<Lamp>()
@@ -21,7 +21,7 @@ class MeshLampsDialogFragment(private val meshPosition: Int, private val num: In
             else if (i is Group) i.lamps.forEach { currentLamps.add(Lamp(it)) }
         }
 
-        val remainingLamps = connectedMeshes[meshPosition].lamps.map { it.id }
+        val remainingLamps = connectedMeshes.find { it.name == meshName }!!.lamps.map { it.id }
             .filter { it -> !currentLamps.map { it.id }.contains(it) }.toTypedArray()
 
         val checkedLamps = BooleanArray(remainingLamps.size)
@@ -50,6 +50,7 @@ class MeshLampsDialogFragment(private val meshPosition: Int, private val num: In
                             val checked = checkedLamps[i]
                             if (checked) {
                                 (activity as SceneComponentsActivity).adapter.addLamp(Lamp(remainingLamps[i]))
+                                (activity as SceneComponentsActivity).vm.change()
                                 Log.i("Dialog", "Added - ${remainingLamps[i]}")
                             }
                         }

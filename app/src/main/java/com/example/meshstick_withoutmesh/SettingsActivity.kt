@@ -13,7 +13,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.meshstick_withoutmesh.types.Colored
 import com.example.meshstick_withoutmesh.types.Group
-import com.example.meshstick_withoutmesh.types.SceneComponents
+import com.example.meshstick_withoutmesh.types.SceneComponent
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.meshstick_withoutmesh.viewmodels.SettingVMFactory
 import com.example.meshstick_withoutmesh.viewmodels.SettingsVM
@@ -58,7 +58,7 @@ class SettingsActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tv_blue).visibility = View.GONE
         }
 
-        val sceneComponent = this.intent.getParcelableExtra<SceneComponents>("component")!!
+        val sceneComponent = this.intent.getParcelableExtra<SceneComponent>("component")!!
         lampName.setText(sceneComponent.name)
         if (sceneComponent is Colored) {
             sbRed.progress = sceneComponent.red
@@ -121,7 +121,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveChanges(
-        sceneComponent: SceneComponents,
+        sceneComponent: SceneComponent,
         name: String,
         red: Int,
         green: Int,

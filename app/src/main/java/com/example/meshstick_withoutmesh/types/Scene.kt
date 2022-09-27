@@ -5,11 +5,11 @@ import android.os.Parcelable
 
 class Scene(private var name: String) : Parcelable {
 
-    var sceneComponents = mutableListOf<SceneComponents>()
+    var sceneComponents = mutableListOf<SceneComponent>()
     var isActive: Boolean = false
 
     constructor(parcel: Parcel) : this(parcel.readString()!!) {
-        parcel.readParcelableList(sceneComponents, SceneComponents::class.java.classLoader)
+        parcel.readParcelableList(sceneComponents, SceneComponent::class.java.classLoader)
     }
 
     constructor() : this("Scene")

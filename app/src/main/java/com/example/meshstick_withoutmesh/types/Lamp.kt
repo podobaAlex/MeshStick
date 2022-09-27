@@ -41,6 +41,15 @@ class Lamp(
         )
     }
 
+    fun sendInit() {
+        MeshHandler.sendNodeMessage(
+            this.id,
+            "{" +
+                    "\"init\":1" +
+                    "}"
+        )
+    }
+
     override fun describeContents(): Int {
         return 0
     }

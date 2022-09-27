@@ -41,7 +41,7 @@ class RVSceneComponentsAdapter(
     }
 
     //Изменяем данные лампы
-    fun changeData(sceneComponent: SceneComponents, position: Int) {
+    fun changeData(sceneComponent: SceneComponent, position: Int) {
         if (sceneComponent is Group) {
             sceneComponent.expanded = (scenes[num].sceneComponents[position] as Group).expanded
         }
@@ -75,7 +75,7 @@ class RVSceneComponentsAdapter(
         scenes[num].sceneComponents.add(lamp)
         notifyDataSetChanged()
 
-        lamp.sendToMesh()
+        lamp.sendInit()
 
         Paper.book().write("scenes", scenes)
     }
@@ -282,7 +282,7 @@ class RVSceneComponentsAdapter(
     }
 
     // функция для восстановления информации при запуске приложения
-    fun setData(items: MutableList<SceneComponents>) {
+    fun setData(items: MutableList<SceneComponent>) {
         scenes[num].sceneComponents = items
         notifyDataSetChanged()
     }

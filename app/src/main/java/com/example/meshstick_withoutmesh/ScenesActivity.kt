@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meshstick_withoutmesh.adapters.RVSceneAdapter
 import com.example.meshstick_withoutmesh.types.Scene
 import com.example.meshstick_withoutmesh.types.SwipeGesture
+import com.example.meshstick_withoutmesh.types.activeScene
 import com.example.meshstick_withoutmesh.types.scenes
 import com.example.myapplication.R
 import com.google.android.material.snackbar.Snackbar
@@ -105,7 +106,7 @@ class ScenesActivity : AppCompatActivity() {
         try {
             scenes = Paper.book().read("scenes")!!
             adapter.setData()
-
+            activeScene = scenes.indexOfFirst { it.isActive }
         } catch (e : NullPointerException) {
             Log.e("DBG_TAG", "null in fun fetchScenes")
         }

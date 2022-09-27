@@ -1,6 +1,6 @@
 package com.example.meshstick_withoutmesh.types
 
-interface Colored : SceneComponents {
+interface Colored : SceneComponent {
     var red: Int
     var green: Int
     var blue: Int
