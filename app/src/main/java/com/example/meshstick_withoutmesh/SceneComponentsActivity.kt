@@ -101,8 +101,8 @@ class SceneComponentsActivity : AppCompatActivity() {
                     delay(5000)
                     if (changedLamps.isNotEmpty()) {
                         Log.d("Change", "${changedLamps.peek()}")
-                        adapter.notifyItemChanged(changedLamps.pop())
                         Paper.book().write("scenes", scenes)
+                        adapter.notifyItemChanged(changedLamps.pop())
                     }
                 }
             }
@@ -341,11 +341,5 @@ class SceneComponentsActivity : AppCompatActivity() {
         val animation = btAdd.drawable as AnimatedVectorDrawable
         animation.start()
     }
-
-    // при изменении цвета у компоненты будет меняться цвет у виджета сцены
-    private fun setSceneWidgetColor() {
-
-    }
-
 
 }
